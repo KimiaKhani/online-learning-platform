@@ -13,7 +13,7 @@ app.include_router(router_teacher.router)
 
 
 
-Base.metadata.create_all(engine)
+Base.metadata.create_all(bind = engine)
 
 
 @app.get("/")
