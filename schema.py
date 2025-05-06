@@ -7,28 +7,26 @@ from typing import Optional
 
 
 class StudentBase(BaseModel):
-    fullname: str
+    username: str
     email: str
     password: str
     national_code : int
     birthdate: date
-    description: str
     academy_id: int
 
 
 class StudentDisplay(BaseModel):
-    fullname: str
+    username: str
     email: str
     national_code : int
     birthdate: date
-    description: str
 
     class Config:
         from_orm = True
 
 
 class TeachertBase(BaseModel):
-    fullname: str
+    username: str
     email: str
     password: str
     national_code: int
@@ -37,7 +35,7 @@ class TeachertBase(BaseModel):
 
 
 class TeacherDisplay(BaseModel):
-    fullname: str
+    username: str
     email: str
     national_code: int
     birthdate: date
