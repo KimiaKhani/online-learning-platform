@@ -6,3 +6,5 @@ passlib
 bcrypt
 python_multipart
 python_jose
+jwt
+psycopg2

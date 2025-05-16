@@ -9,7 +9,6 @@ from authentication import auth
 from DB.db_student import get_student_by_username
 from DB.db_teacher import get_teacher_by_username
 
-
 router = APIRouter(tags=['Authentication'])
 
 

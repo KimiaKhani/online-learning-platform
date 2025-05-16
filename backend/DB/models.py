@@ -12,6 +12,7 @@ class Student(Base):
     email = Column(String)
     national_code = Column(Integer)
     birthdate = Column(Date)
+    is_admin = Column(Boolean, default=False)
     academy_id = Column(Integer, ForeignKey('academy.id'))
     academy = relationship("Academy", back_populates="students")
  #   enrollments = relationship("Enrollment", back_populates="student")

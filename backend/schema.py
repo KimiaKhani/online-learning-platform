@@ -24,6 +24,24 @@ class StudentDisplay(BaseModel):
     class Config:
         from_orm = True
 
+class UpdateStudentBase(BaseModel):
+    username: Optional[str]
+    email: Optional[str]
+    password: Optional[str]
+    national_code: Optional[int]
+    birthdate: Optional[date]
+
+
+
+class StudentAuth(BaseModel):
+    id: int
+    username: str
+    password: str
+
+    class Config:
+        from_attributes = True
+
+
 
 class TeachertBase(BaseModel):
     username: str

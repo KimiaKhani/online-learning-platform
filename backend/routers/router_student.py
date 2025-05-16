@@ -1,16 +1,34 @@
 from fastapi import APIRouter, Depends
-from schema import StudentDisplay, StudentBase
+from schema import StudentDisplay, StudentBase, UpdateStudentBase, StudentAuth
 from sqlalchemy.orm import Session
 from DB.database import get_db
 from DB import db_student
 from authentication import auth
+import logging
+from fastapi.exceptions import HTTPException
+
+
+logging.basicConfig(level=logging.DEBUG)
+
+
 
 router = APIRouter(prefix='/student', tags=['student'])
 
 
 @router.post('/create', response_model=StudentDisplay)
 def create_student(request: StudentBase, db: Session = Depends(get_db)):
-    return db_student.create_student(request, db)
+    try:
+        return db_student.create_student(request, db)
+    except Exception as e:
+        logging.error(f"Error creating student: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+    
+
+
+@router.put('/update_info', response_model=UpdateStudentBase)
+def edite_user(request: UpdateStudentBase, db: Session = Depends(get_db),
+                user: StudentAuth = Depends(auth.get_current_user)):
+    return db_student.edite_student(request, db, user.id)
 
 
 @router.get('/get_student/{username}', response_model=StudentDisplay)

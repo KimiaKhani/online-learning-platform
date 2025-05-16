@@ -37,56 +37,78 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
                                      )
 
     try:
-        _dict = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
+        _dict = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username = _dict.get('sub')
 
         if not username:
             raise error_credential
 
-    except JWTError:
-        raise error_credential
+        # Token expiration check
+        if 'exp' in _dict and datetime.utcnow() > datetime.utcfromtimestamp(_dict['exp']):
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired")
 
-    # Check if the user is a student or teacher
+    except JWTError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='Could not validate credentials',
+            headers={'WWW-authenticate': 'bearer'}
+        )
+
     role = _dict.get('role')
     if role == 'student':
         user = get_student_by_username(username, db)
+        if user is None:
+            raise error_credential
     elif role == 'teacher':
         user = get_teacher_by_username(username, db)
+        if user is None:
+            raise error_credential
     else:
         raise error_credential
 
     return user
 
 
-# def get_current_admin(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
-#     error_credential = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-#                                      detail='invalid authorization',
-#                                      headers={'WWW-authenticate': 'bearer'}
-#                                      )
-#
-#     try:
-#         _dict = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
-#         username = _dict.get('sub')
-#
-#         if not username:
-#             raise error_credential
-#
-#     except JWTError:
-#         raise error_credential
-#
-#     # Check if the user is a student or teacher
-#     role = _dict.get('role')
-#     if role == 'student':
-#         user = get_student_by_username(username, db)
-#     elif role == 'teacher':
-#         user = get_teacher_by_username(username, db)
-#     else:
-#         raise error_credential
-#
-#     if user.is_admin == False:
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail='Protected'
-#         )
-#
-#     return user
+def get_current_admin(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    error_credential = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                                     detail='invalid authorization',
+                                     headers={'WWW-authenticate': 'bearer'}
+                                     )
+
+    try:
+        _dict = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = _dict.get('sub')
+
+        if not username:
+            raise error_credential
+
+        # Token expiration check
+        if 'exp' in _dict and datetime.utcnow() > datetime.utcfromtimestamp(_dict['exp']):
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired")
+
+    except JWTError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='Could not validate credentials',
+            headers={'WWW-authenticate': 'bearer'}
+        )
+
+    role = _dict.get('role')
+    if role == 'student':
+        user = get_student_by_username(username, db)
+        if user is None:
+            raise error_credential
+    elif role == 'teacher':
+        user = get_teacher_by_username(username, db)
+        if user is None:
+            raise error_credential
+    else:
+        raise error_credential
+
+    if not user.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='Protected'
+        )
+
+    return user
