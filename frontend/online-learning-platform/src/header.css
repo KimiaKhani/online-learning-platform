@@ -1,0 +1,40 @@
+
+
+.navv p{
+    font-size: 22px;
+font-weight: 500;
+   
+}
+.btn-login{
+    background-color: #F08080;
+    color: white;
+    border-radius: 30px;
+line-height: normal;
+font-size: 18px;
+text-align: center;
+padding-left: 30px;
+padding-right: 30px;
+}
+.hamburger-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin-top: -10px;
+  }
+  
+  .hamburger {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .hamburger .line {
+    width: 35px;
+    height: 5px;
+    background-color: #333;
+    border-radius: 3px;
+  }
+  
+  

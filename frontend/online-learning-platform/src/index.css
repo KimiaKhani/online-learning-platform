@@ -1,0 +1,35 @@
+@font-face {
+  font-family: 'BNazanin';
+  src: url('./fonts/BNazanin.ttf') format('woff2'),
+       url('./fonts/BNazanin.woff') format('woff'),
+       url('./fonts/BNazanin.woff2') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BNazaninBd';
+  src: url('./fonts/BNaznnBd.ttf') format('woff2'),
+       url('./fonts/BNaznnBd.woff') format('woff'),
+       url('./fonts/BNaznnBd.woff2') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #EBEBEB;
+  font-family: 'BNazanin', sans-serif;
+
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
