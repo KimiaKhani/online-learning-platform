@@ -1,14 +1,23 @@
-from DB.models import Student, Teacher
-from schema import StudentBase, TeachertBase
+from DB.models import Student, Teacher, Admin
+from DB.db_student import duplicate_nationalcode
+from schema import StudentBase, TeachertBase, UpdaTeacherBase
 from sqlalchemy.orm import Session
 from DB.hash import Hash
 from fastapi.exceptions import HTTPException
 from fastapi import status
 
 
-
-def create_teacher(request: TeachertBase, db: Session):
-    #name = request.username
+#creat teacher
+def create_teacher(request: TeachertBase, db: Session, admin_id: int):
+    admin = db.query(Admin).filter(Admin.id == admin_id).first()
+    if not admin:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+    
+    checked = duplicate_nationalcode(request.national_code, db)
+    if checked == True and teacher.national_code != request.code:
+            raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,
+                                detail='This user already exists')
+    
 
     teacher = Teacher(
         username=request.username,
@@ -24,10 +33,37 @@ def create_teacher(request: TeachertBase, db: Session):
     return teacher
 
 
+
+
+#get teacher
 def get_teacher_by_username(username: str, db: Session):
     teacher = db.query(Teacher).filter(Teacher.username == username).first()
     if not teacher:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail='User not found !')
+                            detail='Teacher not found!')
+
+    return teacher
+
+
+
+#edite teacher
+def edite_teacher(request: UpdaTeacherBase, db: Session, teacher_id: int):
+    teacher = db.query(Teacher).filter(Teacher.id == teacher_id).first()
+    if not teacher:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+
+    code = request.national_code
+    checked = duplicate_nationalcode(code, db)
+    if checked == True and teacher.national_code != request.code:
+        raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,
+                            detail='This user already exists')
+
+    teacher.username = request.username
+    teacher.password = Hash.bcrypt(request.password)
+    teacher.email = request.email
+    teacher.national_code = request.national_code
+    teacher.birthdate = request.birthdate
+
+    db.commit()
 
     return teacher

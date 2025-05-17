@@ -6,11 +6,10 @@ from DB import models
 from DB.database import get_db
 from DB.hash import Hash
 from authentication import auth
-from DB.db_student import get_student_by_username
+from DB.db_student import get_student_by_username, get_admin_by_username
 from DB.db_teacher import get_teacher_by_username
 
 router = APIRouter(tags=['Authentication'])
-
 
 @router.post('/token')
 def get_token(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
@@ -38,5 +37,17 @@ def get_token(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depe
             'role': 'teacher'
         }
 
-    # If user is not found in both tables
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='invalid username or password')
+    # Check if the user is an admin
+    admin = get_admin_by_username(request.username, db)
+    if admin and Hash.verify(admin.password, request.password):
+        access_token = auth.create_access_token(data={'sub': admin.username, 'role': 'admin'})
+        return {
+            'access_token': access_token,
+            'type_token': 'bearer',
+            'userID': admin.id,
+            'username': admin.username,
+            'role': 'admin'
+        }
+
+    # If user is not found in any table
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Invalid username or password')

@@ -33,7 +33,7 @@ class UpdateStudentBase(BaseModel):
 
 
 
-class StudentAuth(BaseModel):
+class UserAuth(BaseModel):
     id: int
     username: str
     password: str
@@ -60,6 +60,48 @@ class TeacherDisplay(BaseModel):
     description: str
 
     class Config:
-        from_orm = True
+        from_attributes = True
 
 
+class UpdaTeacherBase(BaseModel):
+    username: Optional[str]
+    email: Optional[str]
+    password: Optional[str]
+    national_code: Optional[int]
+    birthdate: Optional[date]
+    description: Optional[str]
+
+
+class AdminBase(BaseModel):
+    username: Optional[str]
+    email: Optional[str]
+    password: Optional[str]
+
+
+class AcademyBase(BaseModel):
+    name : str
+    office_phone_number : int
+    mobile_phone_number : int
+    email  : str
+    address  : str
+    social_media : str
+
+
+
+class LanguageBase(BaseModel):
+    title : str
+    description : str
+    teacher_names: Optional[List[str]] = None
+
+    class Config:
+        from_attributes = True
+
+
+
+class LanguageUpdateBase(BaseModel):
+    title: Optional[str]   
+    description: Optional[str]  
+    teacher_names: Optional[List[str]] = None
+
+    class Config:
+        from_attributes = True
