@@ -1,40 +1,83 @@
-
-
-.navv p{
-    font-size: 22px;
-font-weight: 500;
-   
+:root {
+  --powder-blue: #64B4DC;
+  --Light-Coral: #F08080;
 }
-.btn-login{
-    background-color: #F08080;
-    color: white;
-    border-radius: 30px;
-line-height: normal;
-font-size: 18px;
-text-align: center;
-padding-left: 30px;
-padding-right: 30px;
+
+.navv p {
+  font-size: 22px;
+  font-weight: 500;
+
 }
+
+.btn-login {
+  background-color: #F08080;
+  color: white;
+  border-radius: 30px;
+  line-height: normal;
+  font-size: 18px;
+  text-align: center;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
 .hamburger-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    margin-top: -10px;
-  }
-  
-  .hamburger {
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  
-  .hamburger .line {
-    width: 35px;
-    height: 5px;
-    background-color: #333;
-    border-radius: 3px;
-  }
-  
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  margin-top: -10px;
+}
+
+.hamburger {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hamburger .line {
+  width: 35px;
+  height: 5px;
+  background-color: #333;
+  border-radius: 3px;
+}
+
+body.ms-5 {
+  margin-right: 0 !important;
+}
+
+.login p {
+  color: var(--powder-blue);
+  font-weight: bold;
+  line-height: normal;
+  font-size: 27px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.13);
+}
+
+.inputt input {
+  border: none;
+  outline: none;
+  box-shadow: 0px 3px 3px 0px #64B4DC;
+  border-radius: 7px;
+  width: 90%;
+
+}
+.inputt p{
+font-size: 24px;
+color: var(--powder-blue);
+line-height: normal;
+font-weight: 500;
+}
+.btn-log{
+  border: none;
+  outline: none;
+  background-color: var(--powder-blue);
+  color: white;
+width: 88%;
+border-radius: 7px;
+font-size: 22px;
+}
+.inputt a{
+  text-decoration: none;
+  color: var(--powder-blue);
+}
