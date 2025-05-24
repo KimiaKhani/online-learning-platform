@@ -1,8 +1,8 @@
-from DB.models import Student, Teacher, Admin
-from DB.db_student import duplicate_nationalcode
+from backend.DB.models import Student, Teacher, Admin
+from backend.DB.db_student import duplicate_nationalcode
 from schema import StudentBase, TeachertBase, UpdaTeacherBase
 from sqlalchemy.orm import Session
-from DB.hash import Hash
+from backend.DB.hash import Hash
 from fastapi.exceptions import HTTPException
 from fastapi import status
 

@@ -1,7 +1,7 @@
-from DB.models import Student, Admin
+from backend.DB.models import Student, Admin
 from schema import StudentBase, UpdateStudentBase
 from sqlalchemy.orm import Session
-from DB.hash import Hash
+from backend.DB.hash import Hash
 from fastapi.exceptions import HTTPException
 from fastapi import status
 

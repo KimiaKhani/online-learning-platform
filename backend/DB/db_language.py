@@ -1,7 +1,7 @@
-from DB.models import Language, TeachLanguage, Teacher, Admin
+from backend.DB.models import Language, TeachLanguage, Teacher, Admin
 from schema import LanguageBase, LanguageUpdateBase
 from sqlalchemy.orm import Session
-from DB.hash import Hash
+from backend.DB.hash import Hash
 from fastapi.exceptions import HTTPException
 from fastapi import status
 

@@ -1,6 +1,6 @@
-from DB.models import Academy, Student, Teacher, Admin
+from backend.DB.models import Academy, Student, Teacher, Admin
 from sqlalchemy.orm import Session
-from DB.hash import Hash
+from backend.DB.hash import Hash
 from fastapi.exceptions import HTTPException
 from fastapi import status
 from schema import AcademyBase

@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from schema import StudentDisplay, StudentBase, UpdateStudentBase, UserAuth, AdminBase
 from sqlalchemy.orm import Session
-from DB.database import get_db
-from DB import db_student
+from backend.DB.database import get_db
+from backend.DB import db_student
 from authentication import auth
 import logging
 from fastapi.exceptions import HTTPException

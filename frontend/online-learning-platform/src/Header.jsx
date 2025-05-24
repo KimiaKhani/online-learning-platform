@@ -43,7 +43,7 @@ const Header = () => {
       </div>
 
 
-      <Modal
+      <Modal>
         isOpen={isOpen}
         onRequestClose={() => setIsOpen(false)}
         style={{

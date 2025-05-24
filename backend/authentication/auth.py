@@ -1,9 +1,9 @@
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends, status, HTTPException
 from sqlalchemy.orm import Session
-from DB.database import get_db
-from DB.db_student import get_student_by_username, get_admin_by_username
-from DB.db_teacher import get_teacher_by_username
+from backend.DB.database import get_db
+from backend.DB.db_student import get_student_by_username, get_admin_by_username
+from backend.DB.db_teacher import get_teacher_by_username
 from typing import Optional
 from datetime import datetime, timedelta
 from jose import jwt

@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from schema import AcademyBase, UserAuth
 from sqlalchemy.orm import Session
-from DB.database import get_db
-from DB import db_academy
+from backend.DB.database import get_db
+from backend.DB import db_academy
 from authentication import auth
 import logging
 from fastapi.exceptions import HTTPException

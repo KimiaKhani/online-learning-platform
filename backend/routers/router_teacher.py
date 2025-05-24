@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from schema import TeachertBase, TeacherDisplay, UserAuth, UpdaTeacherBase
 from sqlalchemy.orm import Session
-from DB.database import get_db
-from DB import db_teacher
+from backend.DB.database import get_db
+from backend.DB import db_teacher
 from authentication import auth
 
 router = APIRouter(prefix='/teacher', tags=['teacher'])
