@@ -1,16 +1,42 @@
 import React, { Component, useState } from 'react';
 import Modal from 'react-modal';
 import "./header.css"
+import axios from "axios"
 const Header = () => {
-
+  const [name,setName]=useState("");
+  const [lastname,setLastname]=useState("");
+  const [email,setEmail]=useState("");
+  const [password,setPassword]=useState("");
+  const[phone,setPhone]=useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [check, setCheck] = useState("null");
+  const [statuslogin,setStatuslogin]=useState(false)
   const checkclick = (choice) => {
     setCheck(choice);     // فقط محتوای داخل مدال رو عوض کن
     setIsOpen(true);      // اگر مدال باز نیست، بازش کن (اگه بازه، کاری نمی‌کنه)
   };
 
+  const handlesubmitlogin=async(e)=>{
+    e.preventDefault();
+    const data={phone:phone,password:password}
+    const response=await axios.post("http://localhost:8000/auth/login",data,{
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    });
+    
+    if (response.status===200){
+      alert("ورود موفقیت‌آمیز.");
+      setIsOpen(false);
+      setStatuslogin(true)
+    }
+    else{
+      alert("خطا در ورود: ");
+    }
+  }
 
+const handlesubmitsign=async(e)=>{
+
+
+}
 
 
   return (
@@ -32,7 +58,21 @@ const Header = () => {
             <span className="line"></span>
           </div>
         </div>
-        <div className="iam me-lg-4 me-md-3 me-1   " role="group">
+        {
+          statuslogin ? (
+            <>
+             <div className="iam me-lg-4 me-md-3 me-1   " role="group">
+          <button className='btn btn-login me-md-4 me-2   ' onClick={() => { checkclick("login") }}>
+            {phone}
+          </button>
+          
+        </div>
+            </>
+          )
+          :
+          (
+            <>
+             <div className="iam me-lg-4 me-md-3 me-1   " role="group">
           <button className='btn btn-login me-md-4 me-2   ' onClick={() => { checkclick("login") }}>
             ورود
           </button>
@@ -40,10 +80,14 @@ const Header = () => {
             ثبت نام
           </button>
         </div>
+            </>
+          )
+        }
+       
       </div>
 
 
-      <Modal>
+      <Modal
         isOpen={isOpen}
         onRequestClose={() => setIsOpen(false)}
         style={{
@@ -60,6 +104,7 @@ const Header = () => {
           },
         }}
       >
+      
 
         {check === "login" && (
           <>
@@ -71,12 +116,12 @@ const Header = () => {
               </svg>
 
             </div>
-            <form className="container inputt ">
+            <form className="container inputt " onSubmit={(e) => { handlesubmitlogin(e) }}>
               <p className='phone-number mt-4 ms-2'>
                 شماره تلفن
               </p>
               <div className="ms-2">
-                <input type="text" className=' pt-2 pb-2 ' />
+                <input type="text" className=' pt-2 pb-2 ' onChange={(e)=>{setPhone(e.target.value)}}/>
               </div>
               <p className='password mt-3 ms-2'>
                 رمز عبور
@@ -133,6 +178,12 @@ const Header = () => {
                   </div>
                   <p className='password mt-3 ms-2'>
                     ایمیل
+                  </p>
+                  <div className="ms-2">
+                    <input type="text" className=' pt-2 pb-2 ' />
+                  </div>
+                  <p className='password mt-3 ms-2'>
+                    کد ملی
                   </p>
 
                 
