@@ -1,16 +1,41 @@
 import React, { Component, useState } from 'react';
 import Modal from 'react-modal';
-import "./header.css"
 import axios from "axios"
+import { useEffect } from 'react';
+import "./header.css"
+
 const Header = () => {
   const [name,setName]=useState("");
   const [lastname,setLastname]=useState("");
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
+  const [codemeli,setCodemeli]=useState("");
   const[phone,setPhone]=useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [check, setCheck] = useState("null");
   const [statuslogin,setStatuslogin]=useState(false)
+  const [user, setUser] = useState(null);
+
+
+
+
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios.get("http://localhost:8000/auth/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => {
+          setUser(res.data);
+          setStatuslogin(true);
+        })
+        .catch((err) => {
+          localStorage.removeItem("token");
+        });
+    }
+  }, []);
+
   const checkclick = (choice) => {
     setCheck(choice);     // فقط محتوای داخل مدال رو عوض کن
     setIsOpen(true);      // اگر مدال باز نیست، بازش کن (اگه بازه، کاری نمی‌کنه)
@@ -25,6 +50,7 @@ const Header = () => {
     
     if (response.status===200){
       alert("ورود موفقیت‌آمیز.");
+      localStorage.setItem("token", response.data.token);
       setIsOpen(false);
       setStatuslogin(true)
     }
@@ -32,12 +58,19 @@ const Header = () => {
       alert("خطا در ورود: ");
     }
   }
-
+  
 const handlesubmitsign=async(e)=>{
-
-
+const data={name:name,lastname:lastname,phone:phone,email:email,codemeli:codemeli,password:password};
+let response=await axios.post("http://localhost:8000/auth/login",data,{
+headers:{"Content-Type" : "application/x-www-form-urlencoded"},
+});
+if(response.status==200){
+  localStorage.setItem("token", response.data.token);
+  setIsOpen(false)
+setStatuslogin(true)
 }
 
+}
 
   return (
     <>
