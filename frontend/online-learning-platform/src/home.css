@@ -1,21 +1,80 @@
-.box-text{
-    
-        position: absolute;
-        top: 89%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 8px ; 
-        text-align: center;
-        width: 80%;
-        max-width: 600px;
-padding: 10px;
-    }
-.box-text p{
+
+
+.slide-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  /* تصویر به صورت کامل و بدون خراب شدن نسبت */
+  .slide-wrapper img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  /* متن وسط تصویر */
+  .box-text {
+    position: absolute;
+    top: 73%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+    box-sizing: border-box;
+  }
+  
+  /* پاراگراف متن داخل باکس */
+  .box-text p {
     font-weight: bold;
-    font-size:100%;
     line-height: normal;
     text-shadow: 0 0 5px black, 0 0 5px black, 0 0 5px black;
-    font-size: clamp(16px, 5vw, 34px);
-}
+    font-size: clamp(13px, 3vw, 32px);
+    margin: 0;
+  }
+  
+  /* دکمه‌های ناویگیشن */
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: #64B4DC;
+    top: 50%; /* وسط ارتفاع */
+    transform: translateY(-50%);
+    z-index: 15;
+    width: 40px;
+    height: 40px;
+  }
+  
+  /* سایز آیکون های دکمه */
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    font-size: 28px;
+  }
+  
+
+  /* مدیا کوئری برای موبایل و تبلت */
+  @media (max-width: 768px) {
+    .box-text {
+      width: 90%;
+      padding: 8px 12px;
+      top: 55%;
+    }
+  
+    .swiper-button-prev,
+    .swiper-button-next {
+      width: 28px;
+      height: 28px;
+    }
+  
+    .swiper-button-prev::after,
+    .swiper-button-next::after {
+      font-size: 18px;
+    }
+  
+   
+  }
+  

@@ -12,31 +12,49 @@ const Home=()=>{
 return(
     <>
 <Header />    
-    <div className="mt-5" >
+    <div className="mt-5 tatt" >
 
-    <Swiper navigation={true} modules={[Navigation]}>
-  <SwiperSlide >
-<div className="" style={{ position: 'relative' }}>
-<img className="img-fluid w-100"
-    style={{ height: 'auto', objectFit: 'cover' }} src="http://www.arkaneandishe.ir/assets/pix/202406121020074571.jpg" alt="slide 1"  />
-  <div className='box-text' >
-   <p>ثبت نام زبان آلمانی( شروع ترم جدید از خرداد)</p>
+    <Swiper navigation={true} modules={[Navigation]} className='swiper-container-custom'>
+    <SwiperSlide>
+  <div className="slide-wrapper">
+    <img
+      className="img-fluid w-100"
+      src="http://www.arkaneandishe.ir/assets/pix/202406121020074571.jpg"
+      alt="slide 1"
+    />
+    <div className="box-text">
+      <p>ثبت نام زبان آلمانی (شروع ترم جدید از خرداد)</p>
+    </div>
   </div>
-</div>
-  </SwiperSlide>
+</SwiperSlide>
+
   <SwiperSlide>
-  <div className="" style={{ position: 'relative' }}>
-<img className="img-fluid w-100"
-    style={{ height: 'auto', objectFit: 'cover' }} src="http://www.arkaneandishe.ir/assets/pix/202406121020074571.jpg" alt="slide 1"  />
-  <div className='box-text' >
-   <p>ثبت نام زبان آلمانی( شروع ترم جدید از خرداد)</p>
+  <div className="slide-wrapper">
+    <img
+      className="img-fluid w-100"
+      src="http://www.arkaneandishe.ir/assets/pix/202406121020074571.jpg"
+      alt="slide 1"
+    />
+    <div className="box-text">
+      <p>ثبت نام زبان آلمانی (شروع ترم جدید از خرداد)</p>
+    </div>
   </div>
-</div>
- </SwiperSlide>
+</SwiperSlide>
+
 </Swiper>
 
 </div>
     
+<div className="static d-flex justify-content-center  ">
+<div className="">
+<p>salam</p>
+</div>
+
+
+</div>
+
+
+
     </>
 )
 
