@@ -17,7 +17,7 @@
   /* متن وسط تصویر */
   .box-text {
     position: absolute;
-    top: 73%;
+    top: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
@@ -41,12 +41,14 @@
   /* دکمه‌های ناویگیشن */
   .swiper-button-prev,
   .swiper-button-next {
-    color: #64B4DC;
+    color: #ffff;
     top: 50%; /* وسط ارتفاع */
     transform: translateY(-50%);
     z-index: 15;
     width: 40px;
     height: 40px;
+    background-color:#64B4DC ;
+    border-radius: 20px;
   }
   
   /* سایز آیکون های دکمه */
@@ -68,6 +70,8 @@
     .swiper-button-next {
       width: 28px;
       height: 28px;
+      margin-top: 10px;
+
     }
   
     .swiper-button-prev::after,
@@ -77,4 +81,54 @@
   
    
   }
+
+  .swiper-container-custom {
+    margin: clamp(16px, 4vw, 32px) 0;
+    height: auto;
+    max-height: 60vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .static svg ellipse {
+    fill: white;
+  stroke: rgb(240, 128, 128);
+  stroke-width: 1.3px;
+  stroke-dasharray: 10, 11; /* 4 پیکسل خط، 10 پیکسل فاصله */
+  stroke-linecap: round;  
+  }
+  .static{
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.2));
+  }
   
+.course{
+  background-color: rgb(236, 240, 241);
+border-radius: 16px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+border: 0.1px solid #dfdddd;
+
+}
+@media (min-width: 968px) {
+.course{
+  width: 30%;
+}
+
+
+}
+.titles p{
+  font-size: 21px;
+  font-weight: 500;
+}
+.accordionn {
+  background-color: rgb(225, 228, 229);
+  width: 100%; /* این خط مهمه */
+cursor: pointer;
+border-bottom-right-radius: 16px;
+border-bottom-left-radius: 16px;
+}
+.accordionn:hover{
+  background-color:rgb(240, 128, 128) ;
+  transition: 1s;
+}

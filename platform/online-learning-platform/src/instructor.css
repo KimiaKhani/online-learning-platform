@@ -1,0 +1,34 @@
+.teacher{
+    background-color: rgb(236, 240, 241);
+}
+.ostad{
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 0.1px solid #dfdddd;
+}
+
+.teacher1{
+    height: auto;
+    max-height: 70vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.logo-box {
+    width: 100px;        /* یا هر ابعادی که بخوای */
+    height: 100px;
+    overflow: hidden;
+    border-radius: 50%;   /* اگه دایره‌ای بخوای */
+    border: 2px solid #ccc;
+  }
+  
+  .logo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;     /* اصل کار! */
+    display: block;
+  }
+  
