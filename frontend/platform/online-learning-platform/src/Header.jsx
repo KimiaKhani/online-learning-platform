@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
 import Modal from 'react-modal';
-import axios from "axios"
+import { default as axios } from 'axios';
 import { useEffect } from 'react';
 import "./header.css"
 

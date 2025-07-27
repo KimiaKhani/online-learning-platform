@@ -31,4 +31,13 @@
     object-fit: cover;     /* اصل کار! */
     display: block;
   }
-  
+  .seen{
+    background-color: #F08080;
+    color: white;
+    font-size: 23px;
+border: none;
+border-radius: 7px;
+}
+.moarefi{
+    font-size: 22px;
+}

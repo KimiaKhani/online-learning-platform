@@ -5,6 +5,7 @@ import { Navigation } from 'swiper/modules'; // یا اگر خطا داشت از
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Autoplay } from 'swiper/modules'; // حواست باشه از این مسیر واردش کنی
+import { Link, useNavigate } from "react-router-dom";
 
 
 let Instructor=()=>{
@@ -42,7 +43,7 @@ return(
 <div className="teacher mt-5 ">
     <div className="d-flex container justify-content-between ">
         <h2 className='mt-4'>اساتید</h2>
-        <button className='mt-4'>مشاهده همه</button>
+    <Link as={Link} to="/instructors"> <button className='mt-4 seen' >مشاهده همه</button></Link>   
     </div>
 <Swiper className='container teacher1  ' style={{ height: 'auto' }}
 modules={[Autoplay]}

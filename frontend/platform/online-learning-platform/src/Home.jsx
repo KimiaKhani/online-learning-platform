@@ -6,6 +6,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import "./home.css"
 import Instructor from './Instructor';
+import Footer from './Footer';
+
 const Home=()=>{
 
 let dataa=[{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
@@ -181,7 +183,7 @@ return(
 
 </div>
 <Instructor />
-
+<Footer />
 
     </>
 )
