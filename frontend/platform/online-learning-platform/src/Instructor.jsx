@@ -60,7 +60,7 @@ loop={true}
     1200: { slidesPerView: 4 },
   }}
 >    {datains.map((value, index) => (
-     <SwiperSlide key={index} className='mt-3 '>
+     <SwiperSlide key={index} className='mt-3 pb-5'>
  <div className="ostad w-100 d-flex justify-content-between " key={index} >
         <div className="logo-box ms-2 mt-1">
           <img className='w-100'

@@ -7,3 +7,27 @@
     line-height: normal;
     color: white;
 }
+#s1{
+    font-size: 40px;
+    font-weight: bold;
+}
+.responsive-map {
+    max-width: 400px;
+
+    width: 400px;
+    height: auto;
+    min-height: 300px;
+    overflow: hidden;
+    border-radius: 10px;
+  
+}
+
+  
+  .responsive-map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+
+}
+  

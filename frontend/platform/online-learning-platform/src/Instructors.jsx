@@ -5,6 +5,7 @@ import { Link,useNavigate } from 'react-router-dom';
 import Header from './Header';
 import image from "./ChatGPT Image Jul 28, 2025, 12_34_49 AM.png"
 import Footer from './Footer';
+import "./instructor.css"
 
 let Instructors=()=>{
 let data= {name:"اقای دکتر مبین حیدری",job:"مدرس زبان انگلیسی",information:"اقای مبین حیدری مدیر موسسه‌ی زبان ارکان اندیشه‌ی بابل، مدرس بزرگسالان و دارای مدرک کارشناسی ارشد آموزش زبان انگلیسی هستند.",classes:["a1","a2","a3"]}
@@ -12,14 +13,32 @@ return(
     <>
 <Header />
 <div className="">
-    <div className="bgbg" style={{backgroundColor:"rgb(63, 56, 45)"}}>
-        <img src={image} alt="" className='w-100 h-25 mt-5'  style={{
-                objectFit: " inherit",  // حفظ نسبت ابعاد تصویر
-                filter: "brightness(50%)",  // ایجاد افکت تاریکی
-                boxShadow: "0 10px 40px rgba(0, 0, 0, 0.7)",  // سایه اضافه به تصویر
-            }}  />
+  <div className="bgbg" style={{ backgroundColor: "rgb(63, 56, 45)", position: "relative" }}>
+    <img
+      src={image}
+      alt="تصویر اصلی"
+      className="w-100 h-25 mt-5"
+      style={{
+        objectFit: "inherit",
+        filter: "brightness(50%)",
+        boxShadow: "0 10px 40px rgba(0, 0, 0, 0.7)"
+      }}
+    />
+
+    {/* لوگو و متن در گوشه بالا-راست */}
+    <div className="overlay-logo-text">
+      <img
+src='https://logoyab.com/wp-content/uploads/2024/08/Noshirvani-University-of-Technology-Logo-1030x1030.png'
+alt="لوگو"
+        className="small-logo"
+      />
+      <p className="logo-text ms-5">
+      موسسه زبان نوشیروانی بابل
+      </p>
     </div>
+  </div>
 </div>
+
 <div className="teacher pb-5" style={{backgroundColor:"#64B4DC"}} >
     <div className="container d-flex ">
     <div className="logo-box  mt-3">

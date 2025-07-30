@@ -9,6 +9,9 @@ import Header from './Header';
 import './fonts/AtFontFace.css';
 import Home from './Home';
 import Instructors from './Instructors';
+import Information from './Information';
+import Contact from './Contact';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -16,6 +19,9 @@ root.render(
   <Routes>
     <Route path="/" index element={<Home />} />
     <Route path="instructors" element={<Instructors />} />    
+    <Route path="information" element={<Information />} />    
+    <Route path="contact" element={<Contact />} />    
+
   </Routes> 
   </BrowserRouter>
 </React.StrictMode>

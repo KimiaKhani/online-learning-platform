@@ -41,3 +41,39 @@ border-radius: 7px;
 .moarefi{
     font-size: 22px;
 }
+.overlay-logo-text {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    max-width: 300px;
+  }
+  
+  .small-logo {
+    width: 75%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .logo-text {
+    font-size: 35px;
+    line-height: 1.5;
+font-weight: bold;
+color:rgb(100, 180, 200);
+white-space: nowrap; /* جلوگیری از شکسته شدن متن */
+  margin: 0; 
+  }
+  .page-title{
+    background-color:rgb(100, 180, 200) ;
+  }
+  .page-title p{
+    color: white;
+    line-height: 1.5;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  .ttile{
+    font-size: 22px;
+    line-height: 1.5;
+  }

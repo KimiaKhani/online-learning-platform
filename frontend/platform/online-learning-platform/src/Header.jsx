@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import { default as axios } from 'axios';
 import { useEffect } from 'react';
 import "./header.css"
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [name,setName]=useState("");
@@ -80,8 +81,8 @@ setStatuslogin(true)
             <p>صفحه اصلی</p>
             <p>زبان ها</p>
             <p> کلاس های فعال</p>
-            <p>تماس با ما</p>
-            <p> درباره ما</p>
+           <Link as={Link} to="/contact"> <p>تماس با ما</p></Link>
+           <Link as={Link} to="/information"> <p> درباره ما</p></Link>
           </nav>
         </div>
         <div className="hamburger-container d-md-none d-block      ">

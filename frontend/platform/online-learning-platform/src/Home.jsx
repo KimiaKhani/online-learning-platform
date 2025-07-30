@@ -140,7 +140,7 @@ return(
       <>
       <div className="col col-lg-3 col-sm-5 col-10 ms-3 px-0 course  mt-4 ">
       <div className="img-country mt-3 ms-3">
-        <img src={value.img} className='w-25 rounded-circle ' alt="" />
+        <img src="https://tiktarh.com/storage/old/2024/08/Icn1006251www.tiktarh.com_.jpg" className='w-25 rounded-circle ' alt="" />
       </div>
       <div className="titles ms-2">
         <p className='mt-2'> سطوح : {value.level} سطح</p>
