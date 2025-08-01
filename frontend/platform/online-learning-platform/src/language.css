@@ -1,0 +1,29 @@
+.ssd{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 15px;
+}
+.ssd img{
+    position: absolute;
+    width: 150px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.35);
+right: 150px;
+top: -35px;
+}
+.title-lang{
+    background-color: rgb(236, 240, 241);
+}
+.title-lang p{
+    font-size: 22px;
+    line-height: 1.7;
+    font-style: normal;
+}
+.tg{
+    object-fit: cover;
+    border-radius: 50%;
+
+}

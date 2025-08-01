@@ -79,7 +79,7 @@ setStatuslogin(true)
         <div className="navvv d-md-block d-none">
           <nav className='navv d-flex gap-lg-5 gap-3 '>
             <p>صفحه اصلی</p>
-            <p>زبان ها</p>
+           <Link  as={Link} to="/language"> <p>زبان ها</p></Link>
             <p> کلاس های فعال</p>
            <Link as={Link} to="/contact"> <p>تماس با ما</p></Link>
            <Link as={Link} to="/information"> <p> درباره ما</p></Link>

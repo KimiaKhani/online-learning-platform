@@ -11,6 +11,7 @@ import Home from './Home';
 import Instructors from './Instructors';
 import Information from './Information';
 import Contact from './Contact';
+import Language from './Language';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -21,6 +22,7 @@ root.render(
     <Route path="instructors" element={<Instructors />} />    
     <Route path="information" element={<Information />} />    
     <Route path="contact" element={<Contact />} />    
+    <Route path="language" element={<Language />} />    
 
   </Routes> 
   </BrowserRouter>
