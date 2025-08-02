@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from schema import CourseBase, CourseDisplay
+from schemas import CourseBase, CourseDisplay
 from sqlalchemy.orm import Session
 from DB.database import get_db
 from DB import db_course

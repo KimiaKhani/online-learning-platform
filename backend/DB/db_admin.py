@@ -1,5 +1,5 @@
 from DB.models import Admin
-from schema import AdminBase
+from schemas import AdminBase
 from sqlalchemy.orm import Session
 from DB.hash import Hash
 from fastapi.exceptions import HTTPException
@@ -11,6 +11,7 @@ def create_admin(request: AdminBase, db: Session):
 
     admin = Admin(
         username=request.username,
+        phonenumber=request.phonenumber,
         password=Hash.bcrypt(request.password),
         email=request.email
     )
@@ -27,4 +28,10 @@ def get_admin_by_username(username: str, db: Session):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail='admin not found !')
 
+    return admin
+
+def get_admin_by_phonenumber(phonenumber: str, db: Session):
+    admin = db.query(Admin).filter(Admin.phonenumber == phonenumber).first()
+    if not admin:
+        raise HTTPException(status_code=404, detail="User not found!")
     return admin

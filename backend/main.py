@@ -14,14 +14,14 @@ scheduler = BackgroundScheduler()
 
 app = FastAPI()
 
+app.include_router(router_admin.router)
 app.include_router(authentications.router)
 app.include_router(router_student.router)
 app.include_router(router_teacher.router)
 app.include_router(router_academy.router)
-app.include_router(router_admin.router)
 app.include_router(router_language.router)
 app.include_router(router_course.router)
-#app.include_router(router_enrollment.router)
+# app.include_router(router_enrollment.router)
 
 Base.metadata.create_all(engine)
 

@@ -9,3 +9,4 @@ python_jose
 jwt
 psycopg2
 pytz
+apscheduler

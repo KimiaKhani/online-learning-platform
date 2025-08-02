@@ -1,5 +1,5 @@
 from DB.models import Language, TeachLanguage, Teacher, Admin
-from schema import LanguageBase, LanguageUpdateBase
+from schemas import LanguageBase, LanguageUpdateBase
 from sqlalchemy.orm import Session, joinedload
 from DB.hash import Hash
 from fastapi.exceptions import HTTPException
