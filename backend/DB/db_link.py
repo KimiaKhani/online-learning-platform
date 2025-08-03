@@ -1,5 +1,5 @@
 from DB.models import Course, LevelEnum, Enrollment
-from schema import CourseBase
+from schemas import CourseBase
 from sqlalchemy.orm import Session
 from DB.hash import Hash
 from DB.database import get_db

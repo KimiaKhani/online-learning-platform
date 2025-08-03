@@ -14,6 +14,7 @@ class Student(Base):
     username = Column(String)
     password = Column(String)
     email = Column(String)
+    phonenumber= Column(String)
     national_code = Column(Integer)
     birthdate = Column(Date)
     academy_id = Column(Integer, ForeignKey('academy.id'))
@@ -25,22 +26,25 @@ class Student(Base):
 
 class Teacher(Base):
     __tablename__ = 'teacher'
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    username = Column(String, unique=True, index=True)
-    email = Column(String, unique=True, index=True)
+    id = Column(Integer, index=True, primary_key=True)
+    username = Column(String, unique=True)
     password = Column(String)
+    email = Column(String)
+    phonenumber= Column(String)
     national_code = Column(Integer)
     birthdate = Column(Date)
     description = Column(String)
     courses = relationship("Course", back_populates="teacher")
-    teach_languages = relationship("TeachLanguage", back_populates="teacher")
-    languages = relationship("Language", secondary="teach_languages", back_populates="teachers")
+    teach_languages = relationship("TeachLanguage", back_populates="teacher", overlaps="languages")
+    languages = relationship("Language", secondary="teach_languages", back_populates="teachers", overlaps="teach_languages")
+
 
 
 class Admin(Base):
     __tablename__ = "admin"
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String)
+    phonenumber= Column(String)
     email = Column(String, unique=True, index=True)
     password = Column(String)
 
@@ -65,8 +69,8 @@ class Language(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, unique=True, index=True)
     description = Column(String)
-    teach_languages = relationship("TeachLanguage", back_populates="language")
-    teachers = relationship("Teacher", secondary="teach_languages", back_populates="languages")
+    teach_languages = relationship("TeachLanguage", back_populates="language", overlaps="teachers")
+    teachers = relationship("Teacher", secondary="teach_languages", back_populates="languages", overlaps="teach_languages")
     courses = relationship("Course", back_populates="language")
 
 
@@ -75,8 +79,10 @@ class TeachLanguage(Base):
     __tablename__ = 'teach_languages'
     teacher_id = Column(Integer, ForeignKey('teacher.id'), primary_key=True)
     language_id = Column(Integer, ForeignKey('languages.id'), primary_key=True)
-    teacher = relationship("Teacher", back_populates="teach_languages")
-    language = relationship("Language", back_populates="teach_languages")
+    teacher = relationship("Teacher", back_populates="teach_languages", overlaps="languages")
+    language = relationship("Language", back_populates="teach_languages", overlaps="teachers")
+
+
 
 
 
@@ -130,6 +136,13 @@ class Payment(Base):
     amount = Column(Float)
     enrollment = relationship("Enrollment", back_populates="payment")
 
+class Video(Base):
+    __tablename__ = 'videos'
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, nullable=False)
+    url = Column(String, nullable=False)
+    course_id = Column(Integer, ForeignKey('courses.id'))
+    uploaded_by = Column(Integer, ForeignKey('teacher.id'))
 
 
 # class Schedule(Base):

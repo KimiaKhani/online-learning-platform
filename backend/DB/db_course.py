@@ -1,5 +1,5 @@
 from DB.models import Course, LevelEnum
-from schema import CourseBase
+from schemas import CourseBase
 from sqlalchemy.orm import Session
 from DB.hash import Hash
 from DB.database import get_db
@@ -10,6 +10,9 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 from DB import models
 import pytz
+from DB.models import Course, Enrollment
+from sqlalchemy.orm import Session, joinedload
+from fastapi import HTTPException
 
 
 # create new course
@@ -190,5 +193,22 @@ def filter_courses(
 
     if not courses:
         raise HTTPException(status_code=404, detail="No courses found with these filters.")
+
+    return courses
+
+
+
+
+def get_paid_courses_links(student_id: int, db: Session):
+    enrollments = db.query(Enrollment)\
+        .filter(Enrollment.student_id == student_id, Enrollment.status == "paid")\
+        .all()
+
+    course_ids = [e.course_id for e in enrollments]
+
+    if not course_ids:
+        raise HTTPException(status_code=403, detail="هیچ دوره‌ی پرداخت‌شده‌ای یافت نشد")
+
+    courses = db.query(Course).filter(Course.id.in_(course_ids)).all()
 
     return courses
