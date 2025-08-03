@@ -40,7 +40,7 @@ class EnrolledStudent(BaseModel):
     birthdate: date
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 
@@ -122,7 +122,7 @@ class LanguageOut(BaseModel):
     description: Optional[str]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class TeacherProfile(BaseModel):
     id: int
@@ -135,7 +135,7 @@ class TeacherProfile(BaseModel):
     languages: List[LanguageOut]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class TeacherDisplay(BaseModel):
     id: int
@@ -148,7 +148,7 @@ class TeacherDisplay(BaseModel):
     language_titles: Optional[List[str]] = None 
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class TeacherCreate(BaseModel):
     username: str
@@ -268,6 +268,19 @@ class CourseLinkDisplay(BaseModel):
     language_title: str
     link: Optional[str] = None
     description: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+
+class VideoCreate(BaseModel):
+    title: str
+    url: str
+    course_id: int
+    uploaded_by: int
+
+class VideoDisplay(VideoCreate):
+    id: int
 
     class Config:
         from_attributes = True

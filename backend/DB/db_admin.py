@@ -4,7 +4,23 @@ from sqlalchemy.orm import Session
 from DB.hash import Hash
 from fastapi.exceptions import HTTPException
 from fastapi import status
+import boto3
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+
+LIARA_ENDPOINT = os.getenv("LIARA_ENDPOINT_URL")
+LIARA_ACCESS_KEY = os.getenv("LIARA_ACCESS_KEY")
+LIARA_SECRET_KEY = os.getenv("LIARA_SECRET_KEY")
+LIARA_BUCKET_NAME = os.getenv("BUCKET_NAME")
+
+s3 = boto3.client(
+    "s3",
+    endpoint_url=LIARA_ENDPOINT,
+    aws_access_key_id=LIARA_ACCESS_KEY,
+    aws_secret_access_key=LIARA_SECRET_KEY,
+)
 
 #creat new admin
 def create_admin(request: AdminBase, db: Session):

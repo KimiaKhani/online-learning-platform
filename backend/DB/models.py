@@ -136,6 +136,14 @@ class Payment(Base):
     amount = Column(Float)
     enrollment = relationship("Enrollment", back_populates="payment")
 
+class Video(Base):
+    __tablename__ = 'videos'
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, nullable=False)
+    url = Column(String, nullable=False)
+    course_id = Column(Integer, ForeignKey('courses.id'))
+    uploaded_by = Column(Integer, ForeignKey('teacher.id'))
+
 
 # class Schedule(Base):
 #     __tablename__ = 'schedule'

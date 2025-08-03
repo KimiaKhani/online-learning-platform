@@ -10,3 +10,4 @@ jwt
 psycopg2
 pytz
 apscheduler
+boto3
