@@ -145,24 +145,26 @@ const showlan=()=>{
        
       </div>
 
-
       <Modal
-        isOpen={isOpen}
-        onRequestClose={() => setIsOpen(false)}
-        style={{
-          overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          },
-          content: {
-            maxWidth: check === "signup" ? "600px" : "550px",
-            margin: 'auto',
-            padding: '10px',
-            borderRadius: '10px',
-            backgroundColor: "#ECF0F1",
-            height: check === "signup" ? "600px" : "550px",
-          },
-        }}
-      >
+  isOpen={isOpen}
+  onRequestClose={() => setIsOpen(false)}
+  style={{
+    overlay: {
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      zIndex: 1000, // مقدار بالا برای اطمینان از اینکه روی همه چی قرار بگیره
+    },
+    content: {
+      zIndex: 1001,
+      maxWidth: check === "signup" ? "600px" : "550px",
+      margin: 'auto',
+      padding: '10px',
+      borderRadius: '10px',
+      backgroundColor: "#ECF0F1",
+      height: check === "signup" ? "600px" : "550px",
+    },
+  }}
+>
+
       
 
         {check === "login" && (
