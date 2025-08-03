@@ -26,7 +26,7 @@ from schemas import EnrollmentRequest
 from DB import db_enrollment
 from schemas import EnrollmentDisplay,PaymentBase,CourseLinkDisplay
 from DB import db_course
-from DB.db_enrollment import create_enrollment, get_enrollment, get_enrollments_by_student, delete_enrollment, get_all_enrollments ,create_payment, get_payment, get_all_payments, delete_payment
+from DB.db_enrollment import  get_enrollment, delete_enrollment, get_all_enrollments , get_payment, get_all_payments, delete_payment
 
 
 router = APIRouter(prefix="/enrollments", tags=["Enrollments"])
@@ -52,6 +52,7 @@ def get_enrollment_route(enrollment_id: int, db: Session = Depends(get_db)):
     if not db_enrollment:
         raise HTTPException(status_code=404, detail="Enrollment not found")
     return db_enrollment
+
 
 @router.get("/{enrollment_id}", response_model=list[EnrollmentDisplay])
 def my_enrollments(

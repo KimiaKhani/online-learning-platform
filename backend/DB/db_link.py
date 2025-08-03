@@ -1,4 +1,4 @@
-from DB.models import Course, LevelEnum, Enrollment
+from DB.models import Course, LevelEnum, Enrollment, Teacher
 from schemas import CourseBase
 from sqlalchemy.orm import Session
 from DB.hash import Hash
@@ -11,7 +11,11 @@ from datetime import datetime
 from DB import models
 
 
-def add_link(course_id: int, meet_link: str, teacher_id: str, db: Session):
+def add_link(course_id: int, meet_link: str, teacher_id: int, db: Session):
+    teacher = db.query(Teacher).filter(Teacher.id == teacher_id).first()
+    if not teacher:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+
     course = db.query(Course).filter(Course.id == course_id).first()
     
     if not course:
@@ -43,7 +47,12 @@ def get_link_for_students(course_id: int, student_id: int, db: Session):
     return {"google_meet_link": course.google_meet_link}
 
 
-def remove_link_by_teacher(course_id: int, teacher_id: str, db: Session):
+def remove_link_by_teacher(course_id: int, teacher_id: int, db: Session):
+    teacher = db.query(Teacher).filter(Teacher.id == teacher_id).first()
+    if not teacher:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+
+    
     course = db.query(Course).filter(Course.id == course_id).first()
     
     if not course:

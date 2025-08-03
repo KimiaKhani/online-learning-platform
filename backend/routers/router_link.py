@@ -19,7 +19,7 @@ router = APIRouter(prefix='/course', tags=['course'])
 
 
 @router.post("/course/{course_id}/add-meet-link")
-def add_google_meet_link_router(course_id: int, meet_link: str, teacher_id: str, db: Session = Depends(get_db)):
+def add_google_meet_link_router(course_id: int, meet_link: str, teacher_id: int, db: Session = Depends(get_db)):
     return add_link(course_id, meet_link, teacher_id, db)
 
 
@@ -31,5 +31,5 @@ def get_google_meet_link_for_students_router(course_id: int, student_id: int, db
 
 
 @router.delete("/course/{course_id}/remove-meet-link")
-def remove_google_meet_link_router(course_id: int, teacher_id: str, db: Session = Depends(get_db)):
+def remove_google_meet_link_router(course_id: int, teacher_id: int, db: Session = Depends(get_db)):
     return remove_link_by_teacher(course_id, teacher_id, db)

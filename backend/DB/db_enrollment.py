@@ -114,3 +114,10 @@ def delete_payment(db: Session, payment_id: int):
         db.delete(db_payment)
         db.commit()
     return db_payment
+
+
+def get_enrollment(enrollment_id: int, db: Session):
+    enrollment = db.query(Enrollment).filter(Enrollment.id == enrollment_id).first()
+    if not enrollment:
+        raise HTTPException(status_code=404, detail="Enrollment not found")
+    return enrollment

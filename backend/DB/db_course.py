@@ -10,16 +10,16 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 from DB import models
 import pytz
-from DB.models import Course, Enrollment
+from DB.models import Course, Enrollment, Admin
 from sqlalchemy.orm import Session, joinedload
 from fastapi import HTTPException
 
 
 # create new course
-def create_course(request: CourseBase, db: Session):
-    # admin = db.query(Admin).filter(Admin.id == admin_id).first()
-    # if not admin:
-    #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+def create_course(request: CourseBase, db: Session, admin_id: int):
+    admin = db.query(Admin).filter(Admin.id == admin_id).first()
+    if not admin:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     
     course = Course(
         language_title=request.language_title,
@@ -42,10 +42,10 @@ def create_course(request: CourseBase, db: Session):
 
 
 # edite course
-def edite_course(id: int, request: CourseBase, db: Session):
-    # admin = db.query(Admin).filter(Admin.id == admin_id).first()
-    # if not admin:
-    #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+def edite_course(id: int, request: CourseBase, db: Session, admin_id: int):
+    admin = db.query(Admin).filter(Admin.id == admin_id).first()
+    if not admin:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     
     course = db.query(Course).filter(Course.id == id).first()
     if not course:
@@ -66,10 +66,10 @@ def edite_course(id: int, request: CourseBase, db: Session):
 
 
 #delete course
-def delete_course( id : int, db: Session):
-    # admin = db.query(Admin).filter(Admin.id == admin_id).first()
-    # if not admin:
-    #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+def delete_course( id : int, db: Session, admin_id: int):
+    admin = db.query(Admin).filter(Admin.id == admin_id).first()
+    if not admin:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     
     course = db.query(Course).filter(Course.id == id).first()
 
@@ -84,9 +84,8 @@ def delete_course( id : int, db: Session):
 def update_course_completion_status(db: Session):
     iran_timezone = pytz.timezone('Asia/Tehran')
 
-    current_time_iran = datetime.now(iran_timezone)
+    current_time_iran = datetime.now(iran_timezone.utc)
 
-    # دریافت دوره‌هایی که زمان پایان آنها گذشته و هنوز کامل نشده‌اند
     courses = db.query(models.Course).filter(models.Course.end_time < current_time_iran, models.Course.is_completed == False).all()
     
     for course in courses:

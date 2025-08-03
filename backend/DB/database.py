@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import redis
 
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:amir1381@localhost/platform"
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:1234@localhost/platform"
 
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)

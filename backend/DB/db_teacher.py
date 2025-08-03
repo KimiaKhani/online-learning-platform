@@ -13,7 +13,11 @@ import logging
 
 
 #creat teacher
-def create_teacher(request: TeacherCreate, db: Session):
+def create_teacher(request: TeacherCreate, db: Session, admin_id:int):
+    admin = db.query(Admin).filter(Admin.id == admin_id).first()
+    if not admin:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+
     existing_teacher = db.query(Teacher).filter(Teacher.username == request.username).first()
     if existing_teacher:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,

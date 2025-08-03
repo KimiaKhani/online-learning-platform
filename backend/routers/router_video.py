@@ -2,12 +2,15 @@
 from fastapi import APIRouter, File, UploadFile, Depends
 from sqlalchemy.orm import Session
 from DB.database import get_db
+from authentication1 import auth
 from schemas import VideoCreate, VideoDisplay
 from DB.db_video import create_video, get_videos_by_course_id
 import uuid
 import boto3
-from DB.models import Teacher
+from DB.models import Teacher, Student
 from authentication1 import auth
+from typing import Annotated
+
 
 router = APIRouter(prefix="/videos", tags=["Videos"])
 
@@ -43,6 +46,11 @@ def upload_video(
     return create_video(video_data, db)
 
 
+
 @router.get("/{course_id}", response_model=list[VideoDisplay])
-def get_course_videos(course_id: int, db: Session = Depends(get_db)):
-    return get_videos_by_course_id(course_id, db)
+def get_course_videos(
+    course_id: int,
+    db: Session = Depends(get_db),
+    current_student: Student = Depends(auth.get_current_student)
+):
+    return get_videos_by_course_id(course_id, db, current_student.id)

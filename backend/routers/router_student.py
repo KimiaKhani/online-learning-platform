@@ -3,7 +3,7 @@ from schemas import StudentDisplay, StudentBase, UpdateStudentBase, UserAuth, Ad
 from sqlalchemy.orm import Session
 from DB.database import get_db
 from DB import db_student
-from authentication import auth
+from authentication1 import auth
 import logging
 from fastapi.exceptions import HTTPException
 import random

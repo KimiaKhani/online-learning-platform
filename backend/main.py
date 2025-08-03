@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from DB.database import Base, engine, get_db
 from sqlalchemy.orm import Session
-from routers import router_student, router_teacher, router_academy, router_admin, router_language, router_course,router_video
+from routers import router_student, router_teacher, router_academy, router_admin, router_language, router_course,router_video, router_link, router_enrollment
 from authentication1 import authentications
 import logging
 from fastapi.exceptions import HTTPException
@@ -21,8 +21,9 @@ app.include_router(router_teacher.router)
 app.include_router(router_academy.router)
 app.include_router(router_language.router)
 app.include_router(router_course.router)
+app.include_router(router_link.router)
 app.include_router(router_video.router)
-# app.include_router(router_enrollment.router)
+app.include_router(router_enrollment.router)
 
 Base.metadata.create_all(engine)
 

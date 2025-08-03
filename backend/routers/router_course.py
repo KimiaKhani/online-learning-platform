@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
-from schemas import CourseBase, CourseDisplay
+from schemas import CourseBase, CourseDisplay, UserAuth
 from sqlalchemy.orm import Session
 from DB.database import get_db
 from DB import db_course
-from authentication import auth
+from authentication1 import auth
 import logging
 from DB.models import Course
 from fastapi.exceptions import HTTPException
@@ -20,18 +20,18 @@ router = APIRouter(prefix='/course', tags=['course'])
 
 
 @router.post('/create', response_model=CourseDisplay)
-def create_course(request: CourseBase, db: Session = Depends(get_db)):
-    return db_course.create_course(request, db)
+def create_course(request: CourseBase, db: Session = Depends(get_db), admin: UserAuth = Depends(auth.get_current_admin)):
+    return db_course.create_course(request, db, admin.id)
 
 
 @router.put('/update_info', response_model=CourseDisplay)
-def edite_course(id:int, request: CourseBase, db: Session = Depends(get_db)):
-    return db_course.edite_course(id, request, db)
+def edite_course(id:int, request: CourseBase, db: Session = Depends(get_db), admin: UserAuth = Depends(auth.get_current_admin)):
+    return db_course.edite_course(id, request, db, admin.id)
 
 
 @router.delete('/delete_book/{id}')
-def delete_course(id: int, db: Session = Depends(get_db)):
-    return db_course.delete_course(id, db)
+def delete_course(id: int, db: Session = Depends(get_db), admin: UserAuth = Depends(auth.get_current_admin)):
+    return db_course.delete_course(id, db, admin.id)
 
 
 
@@ -72,19 +72,19 @@ def filter_courses_route(
     )
 
 
-@router.put("/course/{course_id}/add-meet-link")
-def add_google_meet_link(course_id: int, meet_link: str, teacher_id: str, db: Session = Depends(get_db)):
-    course = db.query(Course).filter(Course.id == course_id).first()
+# @router.put("/course/{course_id}/add-meet-link")
+# def add_google_meet_link(course_id: int, meet_link: str, teacher_id: int, db: Session = Depends(get_db)):
+#     course = db.query(Course).filter(Course.id == course_id).first()
     
-    if not course:
-        raise HTTPException(status_code=404, detail="Course not found")
+#     if not course:
+#         raise HTTPException(status_code=404, detail="Course not found")
     
-    if course.teacher_name != teacher_id:
-        raise HTTPException(status_code=403, detail="You are not authorized to add a Google Meet link for this course.")
+#     if course.teacher_name != teacher_id:
+#         raise HTTPException(status_code=403, detail="You are not authorized to add a Google Meet link for this course.")
     
-    if course.is_online:
-        course.google_meet_link = meet_link
-        db.commit()
-        return {"message": "Google Meet link added successfully", "google_meet_link": meet_link}
-    else:
-        raise HTTPException(status_code=400, detail="This course is not online")
+#     if course.is_online:
+#         course.google_meet_link = meet_link
+#         db.commit()
+#         return {"message": "Google Meet link added successfully", "google_meet_link": meet_link}
+#     else:
+#         raise HTTPException(status_code=400, detail="This course is not online")

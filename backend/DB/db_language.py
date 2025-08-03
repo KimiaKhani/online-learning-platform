@@ -8,11 +8,11 @@ from fastapi import status
 
 
 #create language
-def create_language(request: LanguageBase, db: Session ):
+def create_language(request: LanguageBase, db: Session , admin_id: int):
      
-    # admin = db.query(Admin).filter(Admin.id == admin_id).first()
-    # if not admin:
-    #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+    admin = db.query(Admin).filter(Admin.id == admin_id).first()
+    if not admin:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
 
     language = Language(
         title=request.title,
@@ -32,7 +32,12 @@ def create_language(request: LanguageBase, db: Session ):
 
 
 #edit language
-def update_language(title: str, request: LanguageUpdateBase, db: Session):
+def update_language(title: str, request: LanguageUpdateBase, db: Session, admin_id: int):
+        
+    admin = db.query(Admin).filter(Admin.id == admin_id).first()
+    if not admin:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+
     language = db.query(Language).filter(Language.title == title).first()
 
     if not language:
