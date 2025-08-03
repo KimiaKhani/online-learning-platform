@@ -31,6 +31,18 @@ class StudentDisplay(BaseModel):
     class Config:
         from_orm = True
 
+class EnrolledStudent(BaseModel):
+    id: int
+    username: str
+    email: str
+    phonenumber: str
+    national_code: int
+    birthdate: date
+
+    class Config:
+        orm_mode = True
+
+
 
 class EnrollmentBase(BaseModel):
     course_id: int
@@ -104,17 +116,39 @@ class TeacherBase(BaseModel):
     description: str | None = None  # این می‌تواند None باشد
     language_titles: List[str]  # زبان‌های تدریس‌شده  
 
-class TeacherDisplay(BaseModel):
-    username: Optional[str]
-    email: Optional[str]
-    national_code: Optional[int]
-    birthdate: Optional[date]
-    phonenumber: Optional[str]
-    description: str | None = None 
-    language_titles: List[str]
+class LanguageOut(BaseModel):
+    id: int
+    title: str
+    description: Optional[str]
 
     class Config:
-        from_orm = True
+        orm_mode = True
+
+class TeacherProfile(BaseModel):
+    id: int
+    username: str
+    email: str
+    phonenumber: str
+    national_code: int
+    birthdate: date
+    description: Optional[str]
+    languages: List[LanguageOut]
+
+    class Config:
+        orm_mode = True
+
+class TeacherDisplay(BaseModel):
+    id: int
+    username: str
+    email: str
+    phonenumber: str
+    national_code: str
+    birthdate: date
+    description: Optional[str]
+    language_titles: Optional[List[str]] = None 
+
+    class Config:
+        orm_mode = True
 
 class TeacherCreate(BaseModel):
     username: str
@@ -127,14 +161,14 @@ class TeacherCreate(BaseModel):
 
 
 class UpdaTeacherBase(BaseModel):
-    username: Optional[str]
-    phonenumber:Optional[str]
-    email: Optional[str]
-    password: Optional[str]
-    national_code: Optional[int]
-    birthdate: Optional[date]
-    description: Optional[str]
-    language_titles: Optional[List[str]] 
+    username: Optional[str] = None
+    phonenumber: Optional[str] = None
+    email: Optional[str] = None
+    password: Optional[str] = None
+    national_code: Optional[int] = None
+    birthdate: Optional[date] = None
+    description: Optional[str] = None
+    language_titles: Optional[List[str]] = None 
 
 
 

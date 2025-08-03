@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from DB.database import engine
 from DB.models import base
 from router import student
-from authentication import authentications
+from authentication1 import authentications
 from fastapi.middleware.cors import CORSMiddleware
 
 origins = [

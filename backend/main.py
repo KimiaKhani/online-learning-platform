@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from DB.database import Base, engine, get_db
 from sqlalchemy.orm import Session
 from routers import router_student, router_teacher, router_academy, router_admin, router_language, router_course
-from authentication import authentications
+from authentication1 import authentications
 import logging
 from fastapi.exceptions import HTTPException
 from apscheduler.schedulers.background import BackgroundScheduler

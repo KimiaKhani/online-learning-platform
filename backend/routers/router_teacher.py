@@ -4,13 +4,14 @@ from sqlalchemy.orm import Session
 from DB.database import get_db
 from DB import db_teacher
 from DB.models import Teacher
-from authentication import auth
+from authentication1 import auth
 from fastapi import  HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from DB.hash import Hash
-from authentication.auth import create_access_token
+from authentication1.auth import create_access_token,get_current_teacher
 from DB.database import sessionlocal
-from schemas import TeacherLoginBase
+from schemas import TeacherLoginBase,TeacherProfile,EnrolledStudent
+from DB.models import Course,Student,Enrollment
 
 
 router = APIRouter(prefix='/teacher', tags=['teacher'])
@@ -68,3 +69,27 @@ async def teacher_login(userbase: TeacherLoginBase, response: Response):
         db.close()
 
 
+@router.get("/profile", response_model=TeacherProfile)
+def get_teacher_profile(teacher: Teacher = Depends(get_current_teacher), db: Session = Depends(get_db)):
+    db_teacher = db.query(Teacher).filter(Teacher.id == teacher.id).first()
+    if not db_teacher:
+        raise HTTPException(status_code=404, detail="Teacher not found")
+    return db_teacher
+
+
+@router.get("/my_courses")
+def get_my_courses(teacher: Teacher = Depends(get_current_teacher), db: Session = Depends(get_db)):
+    courses = db.query(Course).filter(Course.teacher_name == teacher.username).all()
+    return courses
+
+
+@router.get("/enrolled_students", response_model=list[EnrolledStudent])
+def get_enrolled_students(teacher: Teacher = Depends(get_current_teacher), db: Session = Depends(get_db)):
+    courses = db.query(Course).filter(Course.teacher_name == teacher.username).all()
+    course_ids = [course.id for course in courses]
+
+    enrollments = db.query(Enrollment).filter(Enrollment.course_id.in_(course_ids)).all()
+    student_ids = list(set(enrollment.student_id for enrollment in enrollments))
+
+    students = db.query(Student).filter(Student.id.in_(student_ids)).all()
+    return students

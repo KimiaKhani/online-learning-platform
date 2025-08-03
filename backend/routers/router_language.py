@@ -3,7 +3,7 @@ from schemas import LanguageBase, LanguageUpdateBase, UserAuth
 from sqlalchemy.orm import Session
 from DB.database import get_db
 from DB import db_language
-from authentication import auth
+from authentication1 import auth
 
 router = APIRouter(prefix='/language', tags=['language'])
 

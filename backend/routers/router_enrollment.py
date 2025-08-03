@@ -13,13 +13,12 @@ from DB.database import sessionlocal
 from schemas import VerifyphoneBase
 from functions.validation import *
 from typing import Annotated
-from authentication1.auth import get_current_active_Student
+from authentication1.auth import get_current_active_Student,get_current_student
 from DB.hash import Hash
 from DB.database import rds
 from authentication1 import auth
 from datetime import datetime
 from fastapi.exceptions import HTTPException
-from authentiactionauth import get_current_student
 from schemas import ChangePassword
 from DB.hash import Hash
 from DB import db_enrollment

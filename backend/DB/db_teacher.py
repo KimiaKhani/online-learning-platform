@@ -84,24 +84,40 @@ def get_teacher_by_username(username: str, db: Session):
 #edite teacher
 def edite_teacher(request: UpdaTeacherBase, db: Session, teacher_id: int):
     teacher = db.query(Teacher).filter(Teacher.id == teacher_id).first()
+
     if not teacher:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+        raise HTTPException(status_code=404, detail="Teacher not found")
 
-    code = request.national_code
-    checked = duplicate_nationalcode(code, db)
-    if checked == True and teacher.national_code != request.code:
-        raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,
-                            detail='This user already exists')
+    # بررسی رمز عبور جدید (در صورت ارسال رمز عبور جدید)
+    if request.password:
+        teacher.password = Hash.bcrypt(request.password)  # هش کردن رمز عبور جدید
 
-    teacher.username = request.username
-    teacher.password = Hash.bcrypt(request.password)
-    teacher.email = request.email
-    teacher.national_code = request.national_code
-    teacher.birthdate = request.birthdate
+    if request.username:
+        teacher.username = request.username
+    if request.email:
+        teacher.email = request.email
+    if request.phonenumber:
+        teacher.phonenumber = request.phonenumber
+    if request.national_code:
+        teacher.national_code = request.national_code
+    if request.birthdate:
+        teacher.birthdate = request.birthdate
+    if request.description:
+        teacher.description = request.description
 
     db.commit()
+    db.refresh(teacher)
 
-    return teacher
+    return TeacherDisplay(
+        id=teacher.id,
+        username=teacher.username,
+        email=teacher.email,
+        phonenumber=teacher.phonenumber,
+        national_code=str(teacher.national_code),
+        birthdate=teacher.birthdate,
+        description=teacher.description
+    )
+
 
 
 

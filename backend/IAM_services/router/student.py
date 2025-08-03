@@ -7,7 +7,7 @@ from schemas import StudentSignUpBase, StudentAuth, StudentLoginBase
 from schemas import VerifyphoneBase
 from functions.validation import *
 from typing import Annotated
-from authentication.auth import get_current_active_Student
+from authentication1.auth import get_current_active_Student
 from DB.hash import Hash
 from DB.database import rds
 from authentication import auth

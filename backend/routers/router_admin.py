@@ -7,7 +7,7 @@ from authentication import auth
 import logging
 from fastapi.exceptions import HTTPException
 from schemas import TeacherCreate, TeacherDisplay
-from authentication.auth import get_current_admin
+from authentication1.auth import get_current_admin
 from typing import Annotated
 from DB.models import Admin,Teacher,Language
 from DB import db_teacher
@@ -17,7 +17,7 @@ from fastapi import APIRouter ,HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from DB import db_admin
-from authentication.auth import create_access_token
+from authentication1.auth import create_access_token
 from DB.hash import Hash
 
 
