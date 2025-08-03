@@ -12,6 +12,7 @@ import Instructors from './Instructors';
 import Information from './Information';
 import Contact from './Contact';
 import Language from './Language';
+import Course from './Course';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -22,7 +23,8 @@ root.render(
     <Route path="instructors" element={<Instructors />} />    
     <Route path="information" element={<Information />} />    
     <Route path="contact" element={<Contact />} />    
-    <Route path="language" element={<Language />} />    
+    <Route path="/language/:lang" element={<Language />} />
+    <Route path="/course" element={<Course />} />
 
   </Routes> 
   </BrowserRouter>

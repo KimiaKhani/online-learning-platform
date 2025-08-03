@@ -85,3 +85,22 @@ font-size: 22px;
   text-decoration: none;
   color: var(--powder-blue);
 }
+
+
+.zabanha {
+  top: 100%; /* زیر دکمه */
+  right: -35px;
+  background-color: white;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 10px;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 7px;
+
+}
+a {
+  text-decoration: none !important;
+  color: inherit; /* این اختیاریه، باعث میشه رنگ لینک مثل متن معمولی بشه */
+}

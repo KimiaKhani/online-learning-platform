@@ -16,8 +16,7 @@ const Header = () => {
   const [check, setCheck] = useState("null");
   const [statuslogin,setStatuslogin]=useState(false)
   const [user, setUser] = useState(null);
-
-
+  const [showlanguage,setShowLanguage]=useState(false);
 
 
 
@@ -70,21 +69,47 @@ if(response.status==200){
   setIsOpen(false)
 setStatuslogin(true)
 }
+}
+
+const showlan=()=>{
+  setTimeout(() => {
+    setShowLanguage(true)
+    
+  }, 100);
 
 }
 
   return (
     <>
-      <div className=" container px-md-0  head d-flex mt-3 justify-content-between  " >
-        <div className="navvv d-md-block d-none">
-          <nav className='navv d-flex gap-lg-5 gap-3 '>
-            <p>صفحه اصلی</p>
-           <Link  as={Link} to="/language"> <p>زبان ها</p></Link>
-            <p> کلاس های فعال</p>
-           <Link as={Link} to="/contact"> <p>تماس با ما</p></Link>
-           <Link as={Link} to="/information"> <p> درباره ما</p></Link>
-          </nav>
-        </div>
+    <div className="container px-md-0 head d-flex mt-3 justify-content-between">
+  <div className="navvv d-md-block d-none position-relative">
+    <nav className="navv d-flex gap-lg-5 gap-3 position-relative">
+     <Link as={Link} to={"/"}> <p>صفحه اصلی</p></Link>
+
+      <div
+  className="position-relative"
+  onMouseEnter={showlan}
+  onMouseLeave={() => setShowLanguage(false)}
+>
+  <Link as={Link} to="/language/english"><p>زبان ها</p></Link>
+
+  {showlanguage && (
+    <div className="zabanha position-absolute">
+      <Link as={Link} to="/language/english"><p>انگلیسی</p></Link>
+      <Link as={Link} to="/language/french"><p>فرانسوی</p></Link>
+      <Link as={Link} to="/language/arabic"><p>عربی</p></Link>
+      <Link as={Link} to="/language/german"><p>آلمانی</p></Link>
+      <Link as={Link} to="/language/turkish"><p>ترکی</p></Link>
+    </div>
+  )}
+</div>
+
+   <Link as={Link} to="/course" >  <p>کلاس های فعال</p></Link> 
+      <Link as={Link} to="/contact"><p>تماس با ما</p></Link>
+      <Link as={Link} to="/information"><p>درباره ما</p></Link>
+    </nav>
+  </div>
+
         <div className="hamburger-container d-md-none d-block      ">
           <div className="hamburger ">
             <span className="line"></span>
