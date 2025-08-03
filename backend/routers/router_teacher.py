@@ -10,8 +10,12 @@ from fastapi.security import OAuth2PasswordRequestForm
 from DB.hash import Hash
 from authentication1.auth import create_access_token,get_current_teacher
 from DB.database import sessionlocal
-from schemas import TeacherLoginBase,TeacherProfile,EnrolledStudent
+from schemas import TeacherLoginBase,TeacherProfile,EnrolledStudent,ChangePassword
 from DB.models import Course,Student,Enrollment
+from functions.validation import *
+from typing import Annotated
+
+
 
 
 router = APIRouter(prefix='/teacher', tags=['teacher'])
@@ -93,3 +97,21 @@ def get_enrolled_students(teacher: Teacher = Depends(get_current_teacher), db: S
 
     students = db.query(Student).filter(Student.id.in_(student_ids)).all()
     return students
+
+@router.put("/change_password")
+def change_password(
+    request: ChangePassword,
+    current_user: Annotated[Teacher, Depends(get_current_teacher)],
+    db: Session = Depends(get_db)
+):
+    user = db.query(Teacher).filter(Teacher.id == current_user.id).first()
+
+    if not Hash.verify(user.password, request.old_password):
+        raise HTTPException(status_code=400, detail="رمز فعلی اشتباه است")
+
+    if not is_valid_password(request.new_password)["valid"]:
+        raise HTTPException(status_code=400, detail="رمز جدید معتبر نیست")
+
+    user.password = Hash.bcrypt(request.new_password)
+    db.commit()
+    return {"message": "رمز عبور با موفقیت تغییر یافت"}
