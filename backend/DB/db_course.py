@@ -35,7 +35,7 @@ def create_course(request: CourseBase, db: Session, admin_id: int):
     db.add(course)
     db.commit()
 
-    update_course_completion_status(db)  
+    # update_course_completion_status(db)  
 
     db.refresh(course)
     return course
@@ -81,19 +81,22 @@ def delete_course( id : int, db: Session, admin_id: int):
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-def update_course_completion_status(db: Session):
-    iran_timezone = pytz.timezone('Asia/Tehran')
 
-    current_time_iran = datetime.now(iran_timezone.utc)
+# def update_course_completion_status(db: Session):
+#     iran_timezone = pytz.timezone('Asia/Tehran')
 
-    courses = db.query(models.Course).filter(models.Course.end_time < current_time_iran, models.Course.is_completed == False).all()
+#     current_time_iran = datetime.now(iran_timezone)
+
+#     courses = db.query(models.Course).filter(models.Course.end_time > current_time_iran, models.Course.is_completed == False).all()
     
-    for course in courses:
-        course.is_completed = True
-        db.commit()
+#     # for course in courses:
+#     #     course.is_completed = True
+#     db.commit()
 
 
-scheduler = BackgroundScheduler()
+# scheduler = BackgroundScheduler()
+
+# scheduler = BackgroundScheduler()
 
 
 #get course by language
