@@ -18,6 +18,12 @@ logging.basicConfig(level=logging.DEBUG)
 
 router = APIRouter(prefix='/course', tags=['course'])
 
+@router.get("/courses", response_model=List[CourseDisplay])
+def get_all_courses(db: Session = Depends(get_db)):
+    return db.query(Course).all()
+
+
+
 
 @router.post('/create', response_model=CourseDisplay)
 def create_course(request: CourseBase, db: Session = Depends(get_db), admin: UserAuth = Depends(auth.get_current_admin)):
@@ -71,7 +77,12 @@ def filter_courses_route(
         is_completed=is_completed
     )
 
-
+@router.get("/{course_id}", response_model=CourseDisplay)
+def get_course(course_id: int, db: Session = Depends(get_db)):
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+    return course
 # @router.put("/course/{course_id}/add-meet-link")
 # def add_google_meet_link(course_id: int, meet_link: str, teacher_id: int, db: Session = Depends(get_db)):
 #     course = db.query(Course).filter(Course.id == course_id).first()

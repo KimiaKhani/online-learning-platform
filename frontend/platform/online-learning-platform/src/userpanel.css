@@ -1,0 +1,40 @@
+.box-title {
+    background-color: #D9D9D9;
+    border-radius: 7px;
+    margin-top: 80px;
+}
+.box-title p{
+    font-size: 18px;
+    font-weight: 500;
+}
+.panel{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.35);
+border-radius: 10px;
+}
+.panel p{
+    font-size: 22px;
+}
+.nav-link {
+    display: block;
+    padding: 10px 15px;
+    color: black;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .active-link {
+    background-color: #E6E6FA;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.35);
+  }
+
+  label{
+    font-size: 23px;
+  }

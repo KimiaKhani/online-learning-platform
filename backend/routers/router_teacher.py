@@ -14,6 +14,7 @@ from schemas import TeacherLoginBase,TeacherProfile,EnrolledStudent,ChangePasswo
 from DB.models import Course,Student,Enrollment
 from functions.validation import *
 from typing import Annotated
+from typing import List
 
 
 
@@ -25,6 +26,9 @@ router = APIRouter(prefix='/teacher', tags=['teacher'])
 def create_teacher_by_admin(request: TeacherBase, db: Session = Depends(get_db),  admin: UserAuth = Depends(auth.get_current_admin)):
     return db_teacher.create_teacher(request, db, admin.id)
 
+@router.get("/all", response_model=List[TeacherDisplay])
+def get_all_teachers(db: Session = Depends(get_db)):
+    return db_teacher.get_all_teachers(db)
 
 @router.put('/update_info', response_model=UpdaTeacherBase)
 def edite_teacher(request: UpdaTeacherBase, db: Session = Depends(get_db),
@@ -37,6 +41,10 @@ def edite_teacher(request: UpdaTeacherBase, db: Session = Depends(get_db),
 def get_teacher(username: str, include_languages: bool = False, db: Session = Depends(get_db)):
     return db_teacher.get_teacher_by_username(username, db)
 
+@router.get("/count")
+def get_teacher_count(db: Session = Depends(get_db)):
+    count = db.query(Teacher).count()
+    return {"total_teachers": count}
 
 @router.post('/login')
 async def teacher_login(userbase: TeacherLoginBase, response: Response):

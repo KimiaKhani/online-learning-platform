@@ -7,33 +7,98 @@ import 'swiper/css/navigation';
 import "./home.css"
 import Instructor from './Instructor';
 import Footer from './Footer';
-
+import axios from 'axios';
 const Home=()=>{
 
-let dataa=[{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "}
-,{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "},
-{lan:"قرانسه",level:18,course:12,available:1,
-img:"http://www.arkaneandishe.ir/assets/pix/201905081045154281.png",information:"سلاممم شسیسشیش سسشی شسی شس یشسی شسیشس  یشسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسی شسسی "}
-]
- 
+  const [dataa, setDataa] = useState([]);
+  const [data11,setData11]=useState([])
+
+const [stats, setStats] = useState([
+  { label: "زبان‌آموز", count: 0 },
+  { label: "تعداد استاد", count: 0 },
+  { label: "تعداد کلاس", count: 0 },
+]);
+
+useEffect(() => {
+  axios.get("http://localhost:8000/language/statistics")
+    .then((res) => {
+      setDataa(res.data);
+    })
+    .catch((err) => {
+      console.error("خطا در گرفتن آمار زبان:", err);
+    });
+}, []);
+
+useEffect(() => {
+  const fetchcourses = async () => {
+    try {
+      const res = await axios.get("http://localhost:8000/course/courses");
+      setData11(res.data);
+    } catch (er) {
+      console.error("خطا در گرفتن کورس:", er);
+    }
+  };
+
+  fetchcourses();
+}, []);
+
+
+
+useEffect(() => {
+  const UpdateStatic = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/student/count");
+      const response1 = await axios.get("http://localhost:8000/teacher/count");
+
+      const data = response.data;
+      const data1=response1.data;
+      const data2=data11.length
+
+      const updatedStats = [
+        { label: "زبان‌آموز", count: data.total_students || 0 },
+        { label: "تعداد استاد", count: data1.total_teachers || 0 },
+        { label: "تعداد کلاس", count: data2 || 0 },
+      ];
+
+      setStats(updatedStats);
+    } catch (error) {
+      console.error("خطا در دریافت آمار:", error);
+    }
+  };
+
+  UpdateStatic();
+}, [data11]);
+
+const getFlagForLanguage = (language) => {
+  switch (language.toLowerCase()) {
+    case "انگلیسی":
+    case "english":
+      return "https://flagcdn.com/w320/gb.png"; // پرچم بریتانیا
+    case "فرانسوی":
+    case "french":
+      return "https://flagcdn.com/w320/fr.png"; // پرچم فرانسه
+    case "آلمانی":
+    case "german":
+      return "https://flagcdn.com/w320/de.png"; // پرچم آلمان
+    case "عربی":
+    case "arabic":
+      return "https://flagcdn.com/w320/sa.png"; // پرچم عربستان
+    case "ترکی":
+    case "turkish":
+      return "https://flagcdn.com/w320/tr.png"; // پرچم ترکیه
+    case "چینی":
+      return "https://flagcdn.com/w320/cn.png";
+    case "ژاپنی":
+      return "https://flagcdn.com/w320/jp.png";
+    case "اسپانیایی":
+      return "https://flagcdn.com/w320/es.png";
+    default:
+      return "https://cdn-icons-png.flaticon.com/512/484/484582.png"; // پرچم عمومی یا globe
+  }
+};
+  
+
+
 const openacoordion = (clickedIndex) => {
   setTimeout(() => {
     setIndex(clickedIndex); 
@@ -79,55 +144,55 @@ return(
 
 </div>
     
-<div className=" static d-flex justify-content-center">
-  <div className="container d-flex justify-content-between gap-3 w-100 flex-nowrap">
-    {[...Array(3)].map((_, idx) => (
-      <div key={idx} style={{ flex: 1, maxWidth: "29%", padding: "0 8px" }}>
-        <svg
-          viewBox="0 0 300 200"
-          width="100%"
-          height="auto"
-          preserveAspectRatio="xMidYMid meet"
-        >
-          <ellipse
-            cx="150"
-            cy="100"
-            rx="80"
-            ry="70"
-            fill="skyblue"
-            stroke="yellow"
-            strokeWidth="3"
-            strokeDasharray="4, 10"
-            strokeLinecap="round"
-            style={{ filter: "drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.5))" }}
-          />
-          <text
-            x="150"
-            y="85"
-            textAnchor="middle"
-            fill="rgb(240, 128, 128)"
-            fontWeight="bold"
-            fontSize="20px"
-            fontFamily="sans-serif"
-          >
-            3000
-          </text>
-          <text
-            x="150"
-            y="125"
-            textAnchor="middle"
-            fill="rgb(240, 128, 128)"
-            fontWeight="bold"
-            fontSize="20px"
-            fontFamily="sans-serif"
-          >
-            زبان‌آموز
-          </text>
-        </svg>
+<div className="static d-flex justify-content-center">
+      <div className="container d-flex justify-content-between gap-3 w-100 flex-nowrap">
+        {stats.map((item, idx) => (
+          <div key={idx} style={{ flex: 1, maxWidth: "29%", padding: "0 8px" }}>
+            <svg
+              viewBox="0 0 300 200"
+              width="100%"
+              height="auto"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              <ellipse
+                cx="150"
+                cy="100"
+                rx="80"
+                ry="70"
+                fill="skyblue"
+                stroke="yellow"
+                strokeWidth="3"
+                strokeDasharray="4, 10"
+                strokeLinecap="round"
+                style={{ filter: "drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.5))" }}
+              />
+              <text
+                x="150"
+                y="85"
+                textAnchor="middle"
+                fill="rgb(240, 128, 128)"
+                fontWeight="bold"
+                fontSize="20px"
+                fontFamily="sans-serif"
+              >
+                {item.count}
+              </text>
+              <text
+                x="150"
+                y="125"
+                textAnchor="middle"
+                fill="rgb(240, 128, 128)"
+                fontWeight="bold"
+                fontSize="20px"
+                fontFamily="sans-serif"
+              >
+                {item.label}
+              </text>
+            </svg>
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-</div>
+    </div>
 <h1 className='mt-4 text-center departeman'>
   دپارتمان های اموزش زبان
 </h1>
@@ -139,13 +204,22 @@ return(
     dataa.map((value,index)=>(
       <>
       <div className="col col-lg-3 col-sm-5 col-10 ms-3 px-0 course  mt-4 ">
-      <div className="img-country mt-3 ms-3">
-        <img src="https://tiktarh.com/storage/old/2024/08/Icn1006251www.tiktarh.com_.jpg" className='w-25 rounded-circle ' alt="" />
+      <div className="img-country mt-3 ms-3 d-flex">
+      <img 
+  src={getFlagForLanguage(value.language)} 
+  className='w-25 rounded-circle' 
+  alt={value.language}
+
+/>
+<h2 className='mt-2 ms-4'>{value.language}</h2>
+
+
       </div>
       <div className="titles ms-2">
-        <p className='mt-2'> سطوح : {value.level} سطح</p>
-        <p className='mt-2'>دوره ها : {value.course} دوره</p>
-        <p className='mt-2'>کلاس های قابل ثبت نام : {value.available} مورد</p>
+      <p className='mt-2'>سطوح: {value.levels.join(", ")}</p>
+<p className='mt-2'>تعداد دوره‌ها: {value.course_count}</p>
+<p className='mt-2'>کلاس‌های قابل ثبت‌نام: {value.available_count}</p>
+
       </div>
    {!openIndex&&( <>
       <div className="accordionn d-flex justify-content-center pt-2 pb-2"

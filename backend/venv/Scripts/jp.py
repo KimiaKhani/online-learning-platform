@@ -1,4 +1,4 @@
-#!C:\Users\Zeytoon PC\Desktop\lessons\Term8\software engineering\onlineplatform\backend\venv\Scripts\python.exe
+#!C:\Users\mobin\OneDrive\Desktop\software eng\source code\online-learning-platform\backend\venv\Scripts\python.exe
 
 import sys
 import json

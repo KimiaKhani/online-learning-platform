@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session, joinedload
 from DB.hash import Hash
 from fastapi.exceptions import HTTPException
 from fastapi import status
-
+from DB.models import Course, Language
 
 
 #create language
@@ -28,7 +28,26 @@ def create_language(request: LanguageBase, db: Session , admin_id: int):
 
     return language
 
+def get_language_statistics(db: Session):
+    languages = db.query(Language).all()
+    stats = []
 
+    for lang in languages:
+        courses = db.query(Course).filter(Course.language_title == lang.title).all()
+
+        course_count = len(courses)
+        available_count = len([c for c in courses if not c.is_completed])
+        levels = list(set(c.level.value for c in courses))  # enum به string تبدیل می‌شه
+
+        stats.append({
+            "language": lang.title,
+            "description": lang.description,
+            "course_count": course_count,
+            "available_count": available_count,
+            "levels": levels
+        })
+
+    return stats
 
 
 #edit language

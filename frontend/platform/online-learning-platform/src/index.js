@@ -13,6 +13,13 @@ import Information from './Information';
 import Contact from './Contact';
 import Language from './Language';
 import Course from './Course';
+import Userpanel from './Userpanel';
+import Adminpanel from './Adminpanel';
+import DetailCourse from './DetailCourse';
+import DetailUser from './DetailUser';
+import Class from './Class';
+import Buycourse from './Buycourse';
+import TeacherPanel from './TeacherPanel';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -25,6 +32,14 @@ root.render(
     <Route path="contact" element={<Contact />} />    
     <Route path="/language/:lang" element={<Language />} />
     <Route path="/course" element={<Course />} />
+    <Route path="/userpanel" element={<Userpanel />} />
+    <Route path="/adminpanel" element={<Adminpanel />} />
+    <Route path="/detail" element={<DetailCourse />} />
+    <Route path="/detailu" element={<DetailUser />} />
+    <Route path="/class/:id" element={<Class />} />
+    <Route path="/buy/:id" element={<Buycourse />} />
+    <Route path="/teacherpanel" element={<TeacherPanel />} />
+
 
   </Routes> 
   </BrowserRouter>

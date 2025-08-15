@@ -7,10 +7,8 @@ from typing import Optional
 from enum import Enum
 from enum import Enum as PyEnum
 from sqlalchemy import Enum as SQLEnum
-
-
-
-
+from pydantic import BaseModel
+from typing import Optional
 class StudentBase(BaseModel):
     username: str
     password: str
@@ -50,14 +48,30 @@ class EnrollmentBase(BaseModel):
 class EnrollmentRequest(BaseModel):
     course_id: int
 
-class EnrollmentDisplay(BaseModel):
-    course_id: int
-    date: date
-    status: str
-    course_title: Optional[str] = None
+
+# schemas.py
+class CourseLinkDisplay(BaseModel):
+    id: int
+    language_title: str
+    teacher_name: str          # 👈 اضافه
+    level: str                 # 👈 اضافه
+    price: float               # 👈 اختیاری ولی مفید
+    link: Optional[str] = None
+    description: Optional[str] = None
 
     class Config:
         from_attributes = True
+        use_enum_values = True  # برای enum سطح
+
+class EnrollmentDisplay(BaseModel):
+    id: int
+    course_id: int
+    date: date                # ✅ اجباری
+    status: str
+    course: Optional[CourseLinkDisplay] = None
+    class Config:
+        from_attributes = True
+
 
 class UpdateStudentBase(BaseModel):
     username: Optional[str] = None
@@ -242,11 +256,13 @@ class CourseDisplay(BaseModel):
     end_time: datetime
     is_completed: bool
     price : float
-
+    link: Optional[str] = None
 
     class Config:
         from_attributes = True
         use_enum_values = True
+        orm_mode = True   # ✅ حتماً اینو بذار
+
 
 
 
@@ -263,14 +279,6 @@ class PaymentBase(BaseModel):
     amount: float
 
 
-class CourseLinkDisplay(BaseModel):
-    id: int
-    language_title: str
-    link: Optional[str] = None
-    description: Optional[str] = None
-
-    class Config:
-        from_attributes = True
 
 
 class VideoCreate(BaseModel):

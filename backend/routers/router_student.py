@@ -24,14 +24,52 @@ from schemas import ChangePassword
 from DB.hash import Hash
 from schemas import EnrollmentRequest
 from schemas import EnrollmentDisplay,PaymentBase,CourseLinkDisplay
-from DB import db_course
-
+from typing import List
+from fastapi import Query
 
 logging.basicConfig(level=logging.DEBUG)
 
 
 
 router = APIRouter(prefix='/student', tags=['student'])
+@router.delete("/delete")
+def delete_student(
+    id: int = Query(..., alias="student_id"),
+    db: Session = Depends(get_db),
+    current_user: UserAuth = Depends(get_current_student)
+):
+    # بررسی وجود دانشجو
+    student = db.query(Student).filter(Student.id == student_id).first()
+    if not student:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="دانشجو با این شناسه یافت نشد."
+        )
+
+    # بررسی مجوز (فقط ادمین یا خود کاربر می‌تواند حذف کند)
+    if current_user.id != student_id and current_user.role != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="شما مجوز حذف این دانشجو را ندارید."
+        )
+
+    try:
+        # حذف دانشجو از دیتابیس
+        db.delete(student)
+        db.commit()
+        return {"message": "دانشجو با موفقیت حذف شد."}
+        
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"خطا در حذف دانشجو: {str(e)}"
+        )
+
+@router.get("/students", response_model=List[StudentDisplay])
+def get_all_students(db: Session = Depends(get_db)):
+    return db.query(Student).all()
+
 
 
 @router.post('/create', response_model=StudentDisplay)
@@ -56,6 +94,10 @@ def update_my_profile(
 def get_student(username: str, db: Session = Depends(get_db)):
     return db_student.get_student_by_username(username, db)
 
+@router.get("/count")
+def get_student_count(db: Session = Depends(get_db)):
+    count = db.query(Student).count()
+    return {"total_students": count}
 
 @router.get("/me")
 async def get_my_info(current_user: Annotated[StudentAuth, Depends(get_current_active_Student)]):

@@ -104,3 +104,23 @@ a {
   text-decoration: none !important;
   color: inherit; /* این اختیاریه، باعث میشه رنگ لینک مثل متن معمولی بشه */
 }
+
+.head { /* برای گزینه‌ی absolute هم آماده است */
+  position: relative;
+}
+
+.mobile-menu {
+  padding: px;
+  border-top: 1px solid #eee;
+  background: #fff;
+}
+
+.mobile-menu a { display: block; padding: 8px 0; }
+
+.head{
+  background-color: rgb(236, 240, 241);
+}
+.btn-login:hover{
+  background-color:rgb(220, 110, 110) ;
+  color: white;
+}

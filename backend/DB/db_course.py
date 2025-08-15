@@ -18,6 +18,8 @@ from fastapi import HTTPException
 # create new course
 def create_course(request: CourseBase, db: Session, admin_id: int):
     admin = db.query(Admin).filter(Admin.id == admin_id).first()
+    print("🔧 بدون ادمین تست")
+
     if not admin:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     
@@ -84,13 +86,15 @@ def delete_course( id : int, db: Session, admin_id: int):
 def update_course_completion_status(db: Session):
     iran_timezone = pytz.timezone('Asia/Tehran')
 
-    current_time_iran = datetime.now(iran_timezone.utc)
+    # تغییر از utc به iran_timezone
+    current_time_iran = datetime.now(iran_timezone)
 
     courses = db.query(models.Course).filter(models.Course.end_time < current_time_iran, models.Course.is_completed == False).all()
     
     for course in courses:
         course.is_completed = True
         db.commit()
+
 
 
 scheduler = BackgroundScheduler()

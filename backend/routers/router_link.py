@@ -1,35 +1,54 @@
-from fastapi import APIRouter, Depends
-from schemas import CourseBase, CourseDisplay
+# routers/link.py
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from DB.database import get_db
-from DB import db_course
-from authentication1 import auth
-import logging
-from DB.models import Course
-from fastapi.exceptions import HTTPException
-from DB.db_link import add_link, get_link_for_students, remove_link_by_teacher
-from typing import List, Optional
+from DB.models import Course, Teacher, Student, Enrollment
 
-
-logging.basicConfig(level=logging.DEBUG)
-
-
-
-router = APIRouter(prefix='/course', tags=['course'])
-
+router = APIRouter(prefix="/course", tags=["course"])
 
 @router.post("/course/{course_id}/add-meet-link")
 def add_google_meet_link_router(course_id: int, meet_link: str, teacher_id: int, db: Session = Depends(get_db)):
-    return add_link(course_id, meet_link, teacher_id, db)
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
 
+    teacher = db.query(Teacher).filter(Teacher.id == teacher_id).first()
+    if not teacher:
+        raise HTTPException(status_code=404, detail="Teacher not found")
 
+    # ✅ تطبیق صحیح: username با teacher_name
+    if course.teacher_name != teacher.username:
+        raise HTTPException(status_code=403, detail="You are not authorized to add a Google Meet link for this course.")
+
+    if not course.is_online:
+        raise HTTPException(status_code=400, detail="This course is not online")
+
+    course.link = meet_link
+    db.commit()
+    return {"message": "Google Meet link added successfully", "google_meet_link": meet_link}
 
 @router.get("/course/{course_id}/meet-link")
 def get_google_meet_link_for_students_router(course_id: int, student_id: int, db: Session = Depends(get_db)):
-    return get_link_for_students(course_id, student_id, db)
-
-
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+    # (اختیاری) اگر لازم است فقط برای دانشجویان paid برگردد، اینجا چک Enrollment بگذار
+    return {"google_meet_link": course.link}
 
 @router.delete("/course/{course_id}/remove-meet-link")
 def remove_google_meet_link_router(course_id: int, teacher_id: int, db: Session = Depends(get_db)):
-    return remove_link_by_teacher(course_id, teacher_id, db)
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+
+    teacher = db.query(Teacher).filter(Teacher.id == teacher_id).first()
+    if not teacher:
+        raise HTTPException(status_code=404, detail="Teacher not found")
+
+    # ✅ همان تطبیق
+    if course.teacher_name != teacher.username:
+        raise HTTPException(status_code=403, detail="You are not authorized to remove the link for this course.")
+
+    course.link = None
+    db.commit()
+    return {"message": "Link removed"}
