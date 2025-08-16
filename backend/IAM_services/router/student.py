@@ -2,7 +2,7 @@ import random
 from fastapi import Depends, APIRouter, status, Response
 from DB.models import Student
 from DB.database import sessionlocal
-from authentication.auth import oauth2
+from authentication1.auth import oauth2
 from schemas import StudentSignUpBase, StudentAuth, StudentLoginBase
 from schemas import VerifyphoneBase
 from functions.validation import *
@@ -10,7 +10,7 @@ from typing import Annotated
 from authentication1.auth import get_current_active_Student
 from DB.hash import Hash
 from DB.database import rds
-from authentication import auth
+from authentication1 import auth
 
 
 

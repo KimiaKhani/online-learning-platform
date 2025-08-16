@@ -1,40 +1,196 @@
+/* Box Title Styling */
 .box-title {
-    background-color: #D9D9D9;
-    border-radius: 7px;
+    background: linear-gradient(135deg, #D9D9D9, #C1C1C1); /* Gradient background */
+    border-radius: 12px;
     margin-top: 80px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Soft shadow */
+    text-align: center; /* Centered text */
 }
-.box-title p{
-    font-size: 18px;
-    font-weight: 500;
+
+.box-title p {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    text-transform: uppercase; /* Uppercase for a modern look */
+    letter-spacing: 1px; /* Space between letters */
 }
-.panel{
+
+/* Panel Styling */
+.panel {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.35);
-border-radius: 10px;
+    padding: 25px;
+    background-color: #fff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    border-radius: 15px;
+    transition: all 0.3s ease-in-out;
 }
-.panel p{
-    font-size: 22px;
+
+.panel:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Hover effect for panel */
 }
+
+.panel p {
+    font-size: 18px;
+    color: #555;
+}
+
+/* Navigation Link Styling */
 .nav-link {
     display: block;
-    padding: 10px 15px;
-    color: black;
+    padding: 14px 20px;
+    color: #333;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    margin: 8px 0;
+    font-weight: 500;
+    background-color: #f4f4f9; /* Light background */
     transition: all 0.3s ease;
-  }
-  
-  .nav-link:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .active-link {
-    background-color: #E6E6FA;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.35);
-  }
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for link */
+}
 
-  label{
-    font-size: 23px;
-  }
+.nav-link:hover {
+    background-color: #D1C4E9; /* Soft lavender hover */
+    color: #3F51B5; /* Change text color on hover */
+    transform: translateY(-2px); /* Slight upward movement */
+}
+
+.active-link {
+    background-color: #8E24AA; /* Deep purple for active link */
+    color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Form Styling */
+label {
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
+}
+
+input, button {
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+input {
+    padding: 14px;
+    margin: 12px 0;
+    border: 1px solid #ccc;
+    background-color: #f7f7f7;
+}
+
+input:focus {
+    border-color: #3F51B5; /* Focused border color */
+    background-color: #fff; /* Lighter background on focus */
+    outline: none;
+}
+
+button {
+    padding: 14px 20px;
+    background-color: #8E24AA; /* Deep purple button */
+    color: white;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #7B1FA2; /* Darker shade on hover */
+    transform: translateY(-2px); /* Hover lift effect */
+}
+
+button:disabled {
+    background-color: #B39DDB;
+}
+
+/* Modal Styling */
+.ModalOverlay {
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+.ModalContent {
+    max-width: 500px;
+    margin: auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.ModalContent h4 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center; /* Centering the modal title */
+}
+
+/* Table Styling */
+.table th {
+    background-color: #F0F0F0;
+    color: #333;
+    font-weight: 600;
+}
+
+.table td {
+    font-size: 16px;
+    color: #555;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #fafafa;
+}
+
+.table-striped tbody tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+.table-striped tbody tr:hover {
+    background-color: #e8e8e8; /* Highlight row on hover */
+}
+
+/* Overall Content Styling */
+.container.srt {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.container.srt .panel {
+    flex: 1;
+    max-width: 280px;
+}
+
+.container.srt .ms-5 {
+    flex: 3;
+    padding-left: 60px;
+}
+
+.container.srt h4 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Box Shadow Animation for Content Hover */
+
+.panel:hover,
+.nav-link:hover,
+button:hover {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); 
+}
+
+/* Dark Mode Styling */
+/* body {
+    background-color: #f4f7fa;
+} */

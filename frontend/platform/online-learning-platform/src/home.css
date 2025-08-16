@@ -132,3 +132,6 @@ border-bottom-left-radius: 16px;
   background-color:rgb(240, 128, 128) ;
   transition: 1s;
 }
+.home-container {
+  background-color: white; /* تنظیم بک‌گراند سفید */
+}

@@ -11,13 +11,17 @@ from DB.db_admin import get_admin_by_username
 from DB.db_teacher import get_teacher_by_username
 from typing import Optional, Annotated
 from schemas import StudentAuth
+from dotenv import load_dotenv
+import os
 
+load_dotenv()  
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/authentication/token')
 
-SECRET_KEY = '862211892BE38C036BC0C43EEF0939953C989B4B2384D9DB77D1E1A516F04980'
-ALGORITHM = 'HS256'
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):

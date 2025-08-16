@@ -127,8 +127,8 @@ class TeacherBase(BaseModel):
     phonenumber:str
     national_code : int
     birthdate: date
-    description: str | None = None  # این می‌تواند None باشد
-    language_titles: List[str]  # زبان‌های تدریس‌شده  
+    description: str | None = None  
+    language_titles: List[str]  
 
 class LanguageOut(BaseModel):
     id: int

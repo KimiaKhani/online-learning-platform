@@ -308,12 +308,7 @@ const Userpanel = () => {
           <NavLink to="/my-certificates" className={({ isActive }) => (isActive ? "nav-link active-link" : "nav-link")}>
             گواهی های من
           </NavLink>
-          <NavLink to="/profile-settings" className={({ isActive }) => (isActive ? "nav-link active-link" : "nav-link")}>
-            تنظیمات پروفایل
-          </NavLink>
-          <NavLink to="/courses" className={({ isActive }) => (isActive ? "nav-link active-link" : "nav-link")}>
-            دوره ها
-          </NavLink>
+        
 
           <button type="button" style={{ border: "none" }} className="nav-link" onClick={() => setIsEditOpen(true)}>
             تغییرات اطلاعات حساب کاربری
@@ -331,12 +326,12 @@ const Userpanel = () => {
 
           <table className="table table-striped mt-3">
             <thead>
-              <tr>
-                <th>زبان</th>
-                <th>سطح</th>
-                <th>مدرس</th>
-                <th>تاریخ شروع / پایان</th>
-                <th>{view === "online" ? "لینک کلاس آنلاین" : "جلسات ویدیویی"}</th>
+              <tr >
+                <th style={{backgroundColor:"white"}}>زبان</th>
+                <th style={{backgroundColor:"white"}}>سطح</th>
+                <th style={{backgroundColor:"white"}}>مدرس</th>
+                <th style={{backgroundColor:"white"}}>تاریخ شروع / پایان</th>
+                <th style={{backgroundColor:"white"}}>{view === "online" ? "لینک کلاس آنلاین" : "جلسات ویدیویی"}</th>
               </tr>
             </thead>
             <tbody>

@@ -242,16 +242,22 @@ useEffect(() => {
   
       if (response.status === 200) {
         alert("کد تأیید شما: " + response.data.verify_code); // 👈 نمایش کد در alert
-
+  
         setSignupPhone(phone); // حالا اینجا ذخیره کن
         setIsOpen(false);
         setOtpModal(true);
         setTimer(180); // ریست تایمر
+  
+        // ذخیره نقش در توکن بعد از دریافت اطلاعات بیشتر (در صورتی که role ارسال بشه)
+        if (response.data.role) {
+          localStorage.setItem("role", response.data.role); // ذخیره نقش
+        }
       }
     } catch (err) {
       alert("خطا در ارسال شماره: " + (err.response?.data?.detail || "نامشخص"));
     }
   };
+  
   
   const verifyOtp = async (e) => {
     e.preventDefault();

@@ -110,8 +110,11 @@ const [openIndex,setOpenIndex]=useState(false);
 const [index,setIndex]=useState(null);
 return(
     <>
-<Header />    
-    <div className=" tatt mt-5" >
+
+<Header  />    
+<div className="home-container">
+
+    <div className=" tatt mt-5 " >
 
     <Swiper navigation={true} modules={[Navigation]} className='swiper-container-custom '>
     <SwiperSlide>
@@ -144,7 +147,7 @@ return(
 
 </div>
     
-<div className="static d-flex justify-content-center">
+<div className="static d-flex justify-content-center" >
       <div className="container d-flex justify-content-between gap-3 w-100 flex-nowrap">
         {stats.map((item, idx) => (
           <div key={idx} style={{ flex: 1, maxWidth: "29%", padding: "0 8px" }}>
@@ -193,12 +196,12 @@ return(
         ))}
       </div>
     </div>
-<h1 className='mt-4 text-center departeman'>
+<h1 className='mt-4 text-center departeman' >
   دپارتمان های اموزش زبان
 </h1>
 
 
-<div className="courses container d-flex justify-content-between mt-4">
+<div className="courses container d-flex justify-content-between mt-4" >
 <div className="row dsd   justify-content-center  ">
   {
     dataa.map((value,index)=>(
@@ -234,7 +237,7 @@ return(
     {
   openIndex === index  &&(
     <>
-     <div className="tozihat">
+     <div className="tozihat" >
       <p>{dataa[index].information}</p>
     </div>
     <div className="accordionn d-flex justify-content-center pt-2 pb-2"
@@ -258,6 +261,7 @@ return(
 </div>
 <Instructor />
 <Footer />
+</div>
 
     </>
 )
