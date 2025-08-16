@@ -46,4 +46,16 @@
     border: 1px solid #ccc;
     border-radius: 5px;
   }
-  
+  /* paragraphs */
+
+.MuiTypography-body1,
+.MuiTypography-body2,
+.MuiTypography-paragraph {
+  color: #fff !important;
+  font-size: 1.06rem;   /* کمی بزرگ‌تر از پیش‌فرض */
+  line-height: 1.8;     /* خوانایی بهتر */
+}
+/* global.css */
+.metric-number {
+  color: #fff !important;
+}

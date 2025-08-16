@@ -5,6 +5,7 @@ from DB.hash import Hash
 from fastapi.exceptions import HTTPException
 from fastapi import status
 from DB.models import Course, Language
+from sqlalchemy.orm import joinedload
 
 
 #create language
@@ -79,7 +80,6 @@ def update_language(title: str, request: LanguageUpdateBase, db: Session, admin_
 
 
 #get language
-from sqlalchemy.orm import joinedload
 
 def get_language(title: str, db: Session):
     language = db.query(Language).options(joinedload(Language.teachers)).filter(Language.title == title).first()
@@ -91,3 +91,29 @@ def get_language(title: str, db: Session):
     
     return LanguageBase(title=language.title, description=language.description, teacher_names=teachers)
 
+def delete_language_safe(title: str, db: Session, admin_id: int):
+    # 1) احراز ادمین
+    admin = db.query(Admin).filter(Admin.id == admin_id).first()
+    if not admin:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+
+    # 2) پیدا کردن زبان
+    lang = db.query(Language).filter(Language.title == title).first()
+    if not lang:
+        raise HTTPException(status_code=404, detail="Language not found")
+
+    # 3) اگر دوره‌ای به این زبان وصل است، حذف ممنوع
+    has_course = db.query(Course.id).filter(Course.language_title == title).first()
+    if has_course:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Cannot delete language: courses exist for this language."
+        )
+
+    # 4) حذف لینک‌های Teacher<->Language (برای جلوگیری از خطای FK)
+    db.query(TeachLanguage).filter(TeachLanguage.language_id == lang.id).delete(synchronize_session=False)
+
+    # 5) حذف خود زبان
+    db.delete(lang)
+    db.commit()
+    return {"message": "Language deleted successfully."}

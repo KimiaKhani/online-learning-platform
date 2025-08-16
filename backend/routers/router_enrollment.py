@@ -5,10 +5,11 @@ from typing import List, Annotated
 from DB.database import get_db
 from DB.models import Student, Course, Enrollment, Payment
 from authentication1.auth import get_current_student
+from authentication1.auth import get_current_admin
+
 from schemas import EnrollmentRequest, EnrollmentDisplay, CourseLinkDisplay, PaymentBase
 from datetime import date
-from datetime import date
-
+from schemas import EnrollmentAdminRow
 router = APIRouter(prefix="/enrollments", tags=["Enrollments"])
 
 # 1) ثبت‌نام در دوره
@@ -154,3 +155,26 @@ def delete_payment_route(payment_id: int, db: Session = Depends(get_db)):
     db.delete(p)
     db.commit()
     return
+
+@router.get("/by-course/{course_id:int}", response_model=List[EnrollmentAdminRow])
+def get_enrollments_by_course_for_admin(
+    course_id: int,
+    admin = Depends(get_current_admin),   # فقط ادمین
+    db: Session = Depends(get_db)
+):
+    rows = (
+        db.query(Enrollment)
+          .options(joinedload(Enrollment.student))
+          .filter(Enrollment.course_id == course_id)
+          .all()
+    )
+    # خروجی را به شکل دلخواه بسازیم (status/date/student)
+    out = []
+    for e in rows:
+        out.append({
+            "id": e.id,
+            "date": e.date,
+            "status": e.status,
+            "student": e.student,   # Pydantic با from_attributes سریالایز می‌کند
+        })
+    return out

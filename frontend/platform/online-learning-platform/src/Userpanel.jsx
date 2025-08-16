@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useMemo } from 'react';
+import { NavLink, useNavigate, Link } from 'react-router-dom';
 import Header from './Header';
 import image from "./ChatGPT Image Jul 28, 2025, 12_34_49 AM.png";
 import Footer from './Footer';
@@ -18,6 +18,8 @@ const Userpanel = () => {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
 
+  const [courseById, setCourseById] = useState({}); // { [id]: fullCourse }
+
   // پروفایل + شناسه دانشجو
   const [profile, setProfile] = useState({});
   const [studentId, setStudentId] = useState(null);
@@ -35,11 +37,50 @@ const Userpanel = () => {
     national_code: "",
     birthdate: ""
   });
+
+  // نمایش: online | offline
+  const [view, setView] = useState("online");
+
+  const authHeader = () => {
+    const token = (localStorage.getItem("token") || "").replace(/^"(.*)"$/, "$1");
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
+
+  useEffect(() => {
+    if (!enrollments?.length) return;
+  
+    const ids = [...new Set(
+      enrollments
+        .map(e => e?.course?.id ?? e?.course_id)
+        .filter(Boolean)
+    )];
+  
+    if (!ids.length) return;
+  
+    let cancelled = false;
+  
+    Promise.all(
+      ids.map(id =>
+        axios
+          .get(`${API}/course/${id}`, { headers: authHeader() }) // اگه این روت تو بک‌اندت public نیست، هدر بفرست
+          .then(r => [id, r.data])
+          .catch(() => [id, null])
+      )
+    ).then(pairs => {
+      if (cancelled) return;
+      const map = {};
+      for (const [id, data] of pairs) if (data) map[id] = data;
+      setCourseById(map);
+    });
+  
+    return () => { cancelled = true; };
+  }, [enrollments]);
+  
+  // گرفتن student_id
   useEffect(() => {
     const getStudentId = async () => {
       try {
         const res = await axios.get(`${API}/student/me`, { headers: authHeader() });
-        console.log("Student me:", res.data);
         setStudentId(res.data.id);
       } catch (e) {
         console.error(e);
@@ -47,11 +88,6 @@ const Userpanel = () => {
     };
     getStudentId();
   }, []);
-
-  const authHeader = () => {
-    const token = (localStorage.getItem("token") || "").replace(/^"(.*)"$/, "$1");
-    return token ? { Authorization: `Bearer ${token}` } : {};
-  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -65,6 +101,25 @@ const Userpanel = () => {
     setForm((p) => ({ ...p, [name]: value }));
   };
 
+  const asBool = (v) => {
+    if (typeof v === "boolean") return v;
+    if (typeof v === "number") return v === 1;
+    if (typeof v === "string") {
+      const s = v.trim().toLowerCase();
+      return ["true", "1", "yes", "on", "online"].includes(s);
+    }
+    return false;
+  };
+  
+  const isOnlineOf = (c) => {
+    if (!c) return false;
+    if (c.is_online !== undefined && c.is_online !== null) return asBool(c.is_online);
+    // fallback: اگر لینک meet داشت، آنلاین فرض کن
+    if (c.link !== undefined) return !!c.link;
+    return false;
+  };
+  
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMsg("");
@@ -125,7 +180,6 @@ const Userpanel = () => {
           "student/profile";
 
         const res = await axios.get(`${API}/${profilePath}`, { headers: authHeader() });
-        console.log("Profile:", res.data);
         setProfile(res.data || {});
         if (role === "student" && res.data?.id) {
           setStudentId(Number(res.data.id));
@@ -141,8 +195,8 @@ const Userpanel = () => {
     (async () => {
       try {
         const res = await axios.get(`${API}/enrollments/me`, { headers: authHeader() });
-        console.log("Enrollments:", res.data);
         setEnrollments(res.data || []);
+        console.log(res.data)
       } catch (e) {
         console.error("Enrollments error:", e);
         setEnrollments([]);
@@ -150,7 +204,7 @@ const Userpanel = () => {
     })();
   }, []);
 
-  // 3) لینک هر دوره (Swagger: student_id لازم است)
+  // 3) لینک هر دوره آنلاین (student_id لازم است)
   useEffect(() => {
     if (!studentId || !enrollments.length) return;
 
@@ -158,7 +212,6 @@ const Userpanel = () => {
     (async () => {
       try {
         const tasks = enrollments.map((enr) => {
-          // courseId را مطمئن از enr.course.id یا enr.course_id بگیر
           const courseId = enr?.course?.id ?? enr?.course_id;
           if (!courseId) return Promise.resolve([null, null]);
 
@@ -169,13 +222,9 @@ const Userpanel = () => {
           .then(r => {
             const body = r.data;
             const link = typeof body === "string" ? body : (body?.google_meet_link ?? body?.link ?? null);
-            console.log("Link for course", courseId, "→", link);
             return [courseId, link];
           })
-          .catch(err => {
-            console.warn(`No link for course ${courseId}`, err?.response?.status, err?.response?.data);
-            return [courseId, null];
-          });
+          .catch(() => [courseId, null]);
         });
 
         const pairs = await Promise.all(tasks);
@@ -191,6 +240,20 @@ const Userpanel = () => {
 
     return () => { cancelled = true; };
   }, [studentId, enrollments]);
+
+  // فیلتر ثبت‌نام‌ها بر اساس آنلاین/آفلاین
+  const filteredEnrollments = useMemo(() => {
+    return enrollments.filter((enr) => {
+      const cid = enr?.course?.id ?? enr?.course_id;
+      const full = courseById[cid] || {};
+      const merged = { ...(enr.course || {}), ...full }; // نسخه کامل + لایت
+  
+      const online = isOnlineOf(merged); // همون هلسپر خودت
+      return view === "online" ? online : !online;
+    });
+  }, [enrollments, view, courseById]);
+  
+  
 
   const fmt = (d) => {
     if (!d) return "—";
@@ -223,10 +286,25 @@ const Userpanel = () => {
       </div>
 
       <div className="container srt ms d-flex justify-content-between">
+        {/* Aside */}
         <div className="panel mt-4 p-5">
-          <NavLink to="/my-classes" className={({ isActive }) => (isActive ? "nav-link active-link" : "nav-link")}>
-            کلاس های من
-          </NavLink>
+          <button
+            type="button"
+            className={`nav-link ${view === "online" ? "active-link" : ""}`}
+            style={{ border: "none" }}
+            onClick={() => setView("online")}
+          >
+            کلاس‌های آنلاین
+          </button>
+          <button
+            type="button"
+            className={`nav-link ${view === "offline" ? "active-link" : ""}`}
+            style={{ border: "none" }}
+            onClick={() => setView("offline")}
+          >
+            کلاس‌های آفلاین
+          </button>
+
           <NavLink to="/my-certificates" className={({ isActive }) => (isActive ? "nav-link active-link" : "nav-link")}>
             گواهی های من
           </NavLink>
@@ -236,6 +314,7 @@ const Userpanel = () => {
           <NavLink to="/courses" className={({ isActive }) => (isActive ? "nav-link active-link" : "nav-link")}>
             دوره ها
           </NavLink>
+
           <button type="button" style={{ border: "none" }} className="nav-link" onClick={() => setIsEditOpen(true)}>
             تغییرات اطلاعات حساب کاربری
           </button>
@@ -244,8 +323,12 @@ const Userpanel = () => {
           </button>
         </div>
 
+        {/* Content */}
         <div style={{ flex: 1 }} className="ms-5">
-          <h4 className="mt-4">دوره‌های ثبت‌نام شده</h4>
+          <h4 className="mt-4">
+            {view === "online" ? "کلاس‌های آنلاین" : "کلاس‌های آفلاین"}
+          </h4>
+
           <table className="table table-striped mt-3">
             <thead>
               <tr>
@@ -253,39 +336,54 @@ const Userpanel = () => {
                 <th>سطح</th>
                 <th>مدرس</th>
                 <th>تاریخ شروع / پایان</th>
-                <th>لینک کلاس آنلاین</th>
+                <th>{view === "online" ? "لینک کلاس آنلاین" : "جلسات ویدیویی"}</th>
               </tr>
             </thead>
             <tbody>
-              {enrollments.length ? (
-                enrollments.map((enr) => {
-                  const course = enr.course || {};
-                  const courseId = course.id ?? enr.course_id;
-                  const link = classLinks[courseId];
-                  return (
-                    <tr key={enr.id}>
-                      <td>{course.language_title ?? "—"}</td>
-                      <td>{course.level ?? "—"}</td>
-                      <td>{course.teacher_name ?? "—"}</td>
-                      <td>{fmt(course.start_time)} / {fmt(course.end_time)}</td>
-                      <td>
-                        {link ? (
-                          <a href={link} target="_blank" rel="noopener noreferrer">ورود به کلاس</a>
-                        ) : "—"}
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr>
-                  <td colSpan="5" className="text-center">هیچ دوره‌ای ثبت‌نام نکردید.</td>
-                </tr>
-              )}
+            {filteredEnrollments.length ? (
+  filteredEnrollments.map((enr) => {
+    const courseLite = enr.course || {};
+    const courseId = courseLite.id ?? enr.course_id;
+    const courseFull = courseById[courseId] || {};
+    const course = { ...courseLite, ...courseFull }; // حالا start_time, end_time, is_online داریم
+
+    const link = classLinks[courseId];
+
+    return (
+      <tr key={enr.id}>
+        <td>{course.language_title ?? "—"}</td>
+        <td>{course.level ?? "—"}</td>
+        <td>{course.teacher_name ?? "—"}</td>
+        <td>{fmt(course.start_time)} / {fmt(course.end_time)}</td>
+
+        {view === "online" ? (
+          <td>
+            {link ? (
+              <a href={link} target="_blank" rel="noopener noreferrer">ورود به کلاس</a>
+            ) : "—"}
+          </td>
+        ) : (
+          <td>
+            <Link to={`/courses/${courseId}/sessions`} className="btn btn-sm btn-primary">
+              مشاهده جلسات کلاس
+            </Link>
+          </td>
+        )}
+      </tr>
+    );
+  })
+) : (
+  <tr>
+    <td colSpan="5" className="text-center">موردی یافت نشد.</td>
+  </tr>
+)}
+
             </tbody>
           </table>
         </div>
       </div>
 
+      {/* Modal ویرایش پروفایل */}
       <Modal
         isOpen={isEditOpen}
         onRequestClose={() => setIsEditOpen(false)}

@@ -6,6 +6,7 @@ from DB import db_language
 from authentication1 import auth
 from DB.db_language import get_language_statistics
 from DB.models import Language
+from DB.db_language import delete_language_safe
 
 router = APIRouter(prefix='/language', tags=['language'])
 
@@ -35,3 +36,12 @@ def get_language(title: str, db: Session = Depends(get_db)):
 @router.get("/statistics")
 def get_language_stats(db: Session = Depends(get_db)):
     return get_language_statistics(db)
+
+
+@router.delete("/{title}")
+def delete_language_route(
+    title: str,
+    db: Session = Depends(get_db),
+    admin = Depends(auth.get_current_admin),
+):
+    return delete_language_safe(title=title, db=db, admin_id=admin.id)

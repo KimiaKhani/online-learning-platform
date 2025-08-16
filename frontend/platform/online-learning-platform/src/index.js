@@ -20,6 +20,9 @@ import DetailUser from './DetailUser';
 import Class from './Class';
 import Buycourse from './Buycourse';
 import TeacherPanel from './TeacherPanel';
+import AdminCourseEnrollments from './AdminCourseEnrollments';
+import CourseSessions from './CourseSessions';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -39,6 +42,8 @@ root.render(
     <Route path="/class/:id" element={<Class />} />
     <Route path="/buy/:id" element={<Buycourse />} />
     <Route path="/teacherpanel" element={<TeacherPanel />} />
+    <Route path="/enrollments/:courseId" element={<AdminCourseEnrollments />} />
+    <Route path="/courses/:courseId/sessions" element={<CourseSessions />} />
 
 
   </Routes> 

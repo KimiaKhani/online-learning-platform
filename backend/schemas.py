@@ -184,6 +184,24 @@ class UpdaTeacherBase(BaseModel):
     description: Optional[str] = None
     language_titles: Optional[List[str]] = None 
 
+class StudentBrief(BaseModel):
+    id: int
+    username: Optional[str] = None
+    email: Optional[str] = None
+    phonenumber: Optional[str] = None
+    national_code: Optional[int] = None
+
+    class Config:
+        from_attributes = True
+
+class EnrollmentAdminRow(BaseModel):
+    id: int
+    date: date
+    status: str                   # "paid" | "pending"
+    student: Optional[StudentBrief] = None
+
+    class Config:
+        from_attributes = True
 
 
 class AdminBase(BaseModel):

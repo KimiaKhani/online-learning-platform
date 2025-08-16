@@ -40,6 +40,7 @@ const Dropdown = () => {
             })
             .catch((err) => {
                 console.error("خطا در گرفتن کورس:", err);
+               
             });
     };
 

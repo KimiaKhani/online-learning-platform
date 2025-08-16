@@ -48,8 +48,14 @@ const Buycourse = () => {
 
       alert('ثبت‌نام و پرداخت با موفقیت انجام شد ✅');
       navigate('/userpanel'); // مثلا هدایت به پنل کاربر
-    } catch (e) {
-      alert(e?.response?.data?.detail || 'خطا در ثبت‌نام یا پرداخت');
+    } catch (err) {
+      if (err.response) {
+        if (err.response.status === 404) alert("⛔ کاربر با این شناسه یافت نشد.");
+        else if (err.response.status === 403) alert("⛔ شما مجوز حذف این کاربر را ندارید.");
+        else if (err.response.status === 409) alert("⛔ شما قبلا این دوره را ثبت نام کردید.");
+
+        else alert("⛔ خطای سرور: " + (err.response.data?.detail || "نامشخص"));
+      }
     }
   };
 
