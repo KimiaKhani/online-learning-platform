@@ -7,8 +7,10 @@ from typing import Optional
 from enum import Enum
 from enum import Enum as PyEnum
 from sqlalchemy import Enum as SQLEnum
-from pydantic import BaseModel
-from typing import Optional
+
+
+
+
 class StudentBase(BaseModel):
     username: str
     password: str
@@ -48,30 +50,14 @@ class EnrollmentBase(BaseModel):
 class EnrollmentRequest(BaseModel):
     course_id: int
 
-
-# schemas.py
-class CourseLinkDisplay(BaseModel):
-    id: int
-    language_title: str
-    teacher_name: str          # 👈 اضافه
-    level: str                 # 👈 اضافه
-    price: float               # 👈 اختیاری ولی مفید
-    link: Optional[str] = None
-    description: Optional[str] = None
-
-    class Config:
-        from_attributes = True
-        use_enum_values = True  # برای enum سطح
-
 class EnrollmentDisplay(BaseModel):
-    id: int
     course_id: int
-    date: date                # ✅ اجباری
+    date: date
     status: str
-    course: Optional[CourseLinkDisplay] = None
+    course_title: Optional[str] = None
+
     class Config:
         from_attributes = True
-
 
 class UpdateStudentBase(BaseModel):
     username: Optional[str] = None
@@ -127,8 +113,8 @@ class TeacherBase(BaseModel):
     phonenumber:str
     national_code : int
     birthdate: date
-    description: str | None = None  
-    language_titles: List[str]  
+    description: str | None = None  # این می‌تواند None باشد
+    language_titles: List[str]  # زبان‌های تدریس‌شده  
 
 class LanguageOut(BaseModel):
     id: int
@@ -184,24 +170,6 @@ class UpdaTeacherBase(BaseModel):
     description: Optional[str] = None
     language_titles: Optional[List[str]] = None 
 
-class StudentBrief(BaseModel):
-    id: int
-    username: Optional[str] = None
-    email: Optional[str] = None
-    phonenumber: Optional[str] = None
-    national_code: Optional[int] = None
-
-    class Config:
-        from_attributes = True
-
-class EnrollmentAdminRow(BaseModel):
-    id: int
-    date: date
-    status: str                   # "paid" | "pending"
-    student: Optional[StudentBrief] = None
-
-    class Config:
-        from_attributes = True
 
 
 class AdminBase(BaseModel):
@@ -274,13 +242,11 @@ class CourseDisplay(BaseModel):
     end_time: datetime
     is_completed: bool
     price : float
-    link: Optional[str] = None
+
 
     class Config:
         from_attributes = True
         use_enum_values = True
-        orm_mode = True   # ✅ حتماً اینو بذار
-
 
 
 
@@ -297,6 +263,14 @@ class PaymentBase(BaseModel):
     amount: float
 
 
+class CourseLinkDisplay(BaseModel):
+    id: int
+    language_title: str
+    link: Optional[str] = None
+    description: Optional[str] = None
+
+    class Config:
+        from_attributes = True
 
 
 class VideoCreate(BaseModel):

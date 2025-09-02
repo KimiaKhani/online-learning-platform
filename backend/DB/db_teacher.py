@@ -14,8 +14,6 @@ import logging
 
 #creat teacher
 def create_teacher(request: TeacherCreate, db: Session, admin_id:int):
-    print("📥 Create teacher called")  # دیباگ سریع
-
     admin = db.query(Admin).filter(Admin.id == admin_id).first()
     if not admin:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
@@ -78,28 +76,7 @@ def create_teacher(request: TeacherCreate, db: Session, admin_id:int):
         language_titles=[language.title for language in languages]
     )
 
-#get all teacher
-def get_all_teachers(db: Session):
-    teachers = db.query(Teacher).all()
-    result = []
 
-    for teacher in teachers:
-        # گرفتن زبان‌هایی که این استاد تدریس می‌کند
-        languages = db.query(Language).join(TeachLanguage).filter(TeachLanguage.teacher_id == teacher.id).all()
-        language_titles = [lang.title for lang in languages]
-
-        result.append(TeacherDisplay(
-            id=teacher.id,
-            username=teacher.username,
-            email=teacher.email,
-            phonenumber=teacher.phonenumber,
-            national_code=str(teacher.national_code),
-            birthdate=teacher.birthdate,
-            description=teacher.description,
-            language_titles=language_titles
-        ))
-
-    return result
 #get teacher
 def get_teacher_by_username(username: str, db: Session):
     teacher = db.query(Teacher).filter(Teacher.username == username).first()
@@ -175,21 +152,7 @@ def create_teacher_by_admin(request: TeacherCreate, db: Session):
         db.add(relation)
 
     db.commit()
-    return TeacherDisplay(
-        id=teacher.id,
-        username=teacher.username,
-        email=teacher.email,
-        phonenumber=teacher.phonenumber,
-        national_code=teacher.national_code,
-        birthdate=teacher.birthdate,
-        description=teacher.description,
-        language_titles=[
-            lang.title for lang in db.query(Language)
-            .join(TeachLanguage)
-            .filter(TeachLanguage.teacher_id == teacher.id)
-            .all()
-        ]
-    )
+    return teacher
 
 
 

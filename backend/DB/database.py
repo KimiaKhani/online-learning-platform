@@ -4,10 +4,6 @@ from sqlalchemy.orm import sessionmaker
 import redis
 import os
 
-<<<<<<< HEAD
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:13821023mobin@localhost:5434/platform"
-=======
->>>>>>> b2e9bd61595f56a1b4e32f5595927b4c65c5a612
 
 
 #SQLALCHEMY_DATABASE_URL =  "postgresql://root:MdehUvRoOiAW9wBeibrChJEt@platform:5432/postgres"

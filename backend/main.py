@@ -9,13 +9,8 @@ from authentication1 import authentications
 import logging
 from fastapi.exceptions import HTTPException
 from apscheduler.schedulers.background import BackgroundScheduler
-<<<<<<< HEAD
-from DB.db_course import update_course_completion_status  
-from fastapi.middleware.cors import CORSMiddleware
-=======
 #from DB.db_course import update_course_completion_status  
 from fastapi.responses import PlainTextResponse
->>>>>>> b2e9bd61595f56a1b4e32f5595927b4c65c5a612
 
 
 
@@ -23,15 +18,6 @@ from fastapi.responses import PlainTextResponse
 
 
 app = FastAPI()
-
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # یا ["http://localhost:3000"] فقط برای دامنه فرانتت
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 app.include_router(router_admin.router)
 app.include_router(authentications.router)
